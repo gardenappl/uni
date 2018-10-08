@@ -1,0 +1,238 @@
+#include <SFML/Graphics.hpp>
+#include <math.h>
+#include <limits>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+
+const unsigned int INITIAL_WIDTH = 800;
+const unsigned int INITIAL_HEIGHT = 600;
+const float INITIAL_SCALE = 100;
+const int INITIAL_POINT_COUNT = 1024;
+
+const double EPSILON = 0.0000001;
+
+unsigned int windowWidth = INITIAL_WIDTH;
+unsigned int windowHeight = INITIAL_HEIGHT;
+float cameraX = 0;
+float cameraY = 0;
+
+double yFunction(double x)
+{
+    return x * x;
+}
+
+double getDerivativeValue(double (*func)(double), double x)
+{
+    return (func(x + EPSILON / 2) - func(x - EPSILON / 2)) / EPSILON;
+}
+
+double findLocalExtremum(double (*func)(double), double x)
+{
+    double diff = 0.;
+    for(int steps = 0; steps < 10000000; steps++)
+    {
+        diff = EPSILON * getDerivativeValue(func, x);
+        x -= diff;
+        cout << x << ' ' << diff << endl;
+        if(diff < EPSILON * 0.00001)
+        {
+            return x;
+        }
+    }
+    cout << "Computation timed out. " << endl;
+    return 0;
+}
+//
+//float calculateCurveLength(float (*func)(float), float start, float end)
+//{
+//    float startValue = derivative(start);
+//    float endValue = derivative(end);
+//    return 0.5f * (sqrt(endValue * endValue + 1) * endValue + 1 / sinh(endValue) -
+//                sqrt(startValue * startValue + 1) * startValue - 1 / sinh(startValue));
+//}
+
+sf::Vertex* plotChart(int& pointCount, double (*func)(double), int precision, float xScale, float yScale)
+{
+    // Create chart
+    pointCount = precision;
+
+    sf::Vertex* chart = new sf::Vertex[pointCount];
+//    cout << "plot chart!" << endl;
+    for(int i = 0; i < pointCount; i++)
+    {
+        double x = (((float)i + 0.5f - pointCount / 2) / (precision - 1) * windowWidth) / xScale + cameraX;
+        double y = func(x);
+//        cout << "y(" << x << ") = " << y << endl;
+//        cout << "x = " << x << " y' = " << getDerivativeValue(func, x) << endl;
+
+        if(isnan(y) || isinf(y))
+        {
+            chart[i].color = sf::Color::Transparent;
+            chart[i].position = sf::Vector2f{x, 0};
+        }
+        else
+        {
+            chart[i].color = sf::Color{255 * i / pointCount, 255 - 255 * i / pointCount, 255};
+            chart[i].position = sf::Vector2f{x, y};
+        }
+    }
+    cout << endl << endl << "LOCAL EXTREMUM: " << findLocalExtremum(func, 2) << endl;
+    return chart;
+}
+
+int main()
+{
+    float scale = INITIAL_SCALE;
+    int precision = INITIAL_POINT_COUNT;
+
+    // Create the main window
+    sf::ContextSettings settings{};
+    settings.antialiasingLevel = 1;
+
+    sf::RenderWindow app{sf::VideoMode{windowWidth, windowHeight}, "Graph View", sf::Style::Default, settings};
+
+    // Print debug info
+    settings = app.getSettings();
+    cout << "OpenGL version " << settings.majorVersion << '.' << settings.minorVersion << endl;
+    cout << "Anti-aliasing: " << settings.antialiasingLevel << endl;
+
+    // Create chart
+
+    int pointCount;
+    sf::Vertex* chart = plotChart(pointCount, &yFunction, precision, scale, scale);
+
+    // Extra graphics
+
+    sf::Font font{};
+    if(!font.loadFromFile("arial.ttf"))
+    {
+        app.close();
+    }
+
+    sf::Vertex lines[4];
+    for(int i = 0; i < 4; i++)
+    {
+        lines[i].color = sf::Color{200, 200, 200};
+    }
+
+    sf::Text zoomText{"", font, 24};
+    zoomText.setFillColor(sf::Color::Magenta);
+
+    sf::Text precisionText{"", font, 24};
+    precisionText.setFillColor(sf::Color::Magenta);
+    precisionText.setPosition(0, 30);
+
+    sf::Text exitText{"Press ENTER to exit", font, 24};
+    exitText.setFillColor(sf::Color::Magenta);
+    exitText.setPosition(0, 90);
+
+	// Start the display loop
+    while(app.isOpen())
+    {
+        bool redraw = false;
+
+        // Process events
+        sf::Event event;
+        while(app.pollEvent(event))
+        {
+            switch(event.type)
+            {
+            case sf::Event::Closed:
+                app.close();
+                return EXIT_SUCCESS;
+
+            case sf::Event::KeyPressed:
+                switch(event.key.code)
+                {
+                case sf::Keyboard::Up:
+                    cameraY += 15 / scale;
+                    redraw = true;
+                    break;
+                case sf::Keyboard::Down:
+                    cameraY -= 15 / scale;
+                    redraw = true;
+                    break;
+                case sf::Keyboard::Left:
+                    cameraX -= 15 / scale;
+                    redraw = true;
+                    break;
+                case sf::Keyboard::Right:
+                    cameraX += 15 / scale;
+                    redraw = true;
+                    break;
+                case sf::Keyboard::LBracket:
+                    precision = max(2, precision / 2);
+                    redraw = true;
+                    break;
+                case sf::Keyboard::RBracket:
+                    precision *= 2;
+                    redraw = true;
+                    break;
+                case sf::Keyboard::Dash:
+                    scale = max(INITIAL_SCALE / 128, scale * 0.5f);
+                    redraw = true;
+                    break;
+                case sf::Keyboard::Equal:
+                    scale *= 2.0f;
+                    redraw = true;
+                    break;
+                case sf::Keyboard::Return:
+                    app.close();
+                    return EXIT_SUCCESS;
+                default:
+                    break;
+                }
+                break;
+            case sf::Event::Resized:
+                windowWidth = event.size.width;
+                windowHeight = event.size.height;
+                app.setView(sf::View{sf::FloatRect{0, 0, windowWidth, windowHeight}});
+                redraw = true;
+                break;
+            default:
+                break;
+            }
+        }
+
+        if(redraw)
+        {
+            delete[] chart;
+            chart = plotChart(pointCount, yFunction, precision, scale, scale);
+        }
+
+        // Draw graphics
+        app.clear();
+
+        sf::Transform transform{};
+        transform
+            .translate(windowWidth / 2, windowHeight / 2)
+            .scale(scale, -scale)
+            .translate(-cameraX, -cameraY);
+//            .scale(1, -1);
+
+
+        lines[0].position = sf::Vector2f{0, cameraY - (float)windowWidth / scale};
+        lines[1].position = sf::Vector2f{0, cameraY + (float)windowWidth / scale};
+        lines[2].position = sf::Vector2f{cameraX - (float)windowHeight / scale, 0};
+        lines[3].position = sf::Vector2f{cameraX + (float)windowHeight / scale, 0};
+
+        app.draw(lines, 4, sf::Lines, transform);
+        app.draw(chart, pointCount, sf::LineStrip, transform);
+
+
+        zoomText.setString("Zoom: " + to_string(scale / INITIAL_SCALE));
+        precisionText.setString("Points on screen: " + to_string(precision));
+
+        app.draw(zoomText);
+        app.draw(precisionText);
+        app.draw(exitText);
+
+        // Update the window
+        app.display();
+    }
+
+    return EXIT_SUCCESS;
+}
