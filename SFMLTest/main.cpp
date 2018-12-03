@@ -23,13 +23,14 @@ float scale = INITIAL_SCALE;
 
 double yFunction(double x)
 {
-    return sin(x) * sqrt(x);
+    return sin(x) * x;
 }
 
 function<double(double)> createDerivativeFunction(function<double(double)> func)
 {
     return [func](double x) -> double
     {
+        // Standard formula for derivative
         return (func(x + EPSILON / 2) - func(x - EPSILON / 2)) / EPSILON;
     };
 }
@@ -47,7 +48,7 @@ double findLocalExtremum(function<double(double)> func, double x)
 
     if(abs(doubleDerivative(x)) < DIFF_EPSILON)
     {
-        cout << "Can't find extremum at this point. (double derivative == 0)" << endl;
+        cout << "Can't find extremum at this point. (y''(x) == 0)" << endl;
         return numeric_limits<double>::quiet_NaN();
     }
     else if(doubleDerivative(x) > EPSILON)
@@ -61,7 +62,7 @@ double findLocalExtremum(function<double(double)> func, double x)
     }
 
     double diff = 0.;
-    for(int steps = 0; steps < 100000000; steps++)
+    for(int steps = 0; steps < 10000000; steps++)
     {
         diff = EPSILON * derivative(x);
         if(isnan(diff))
@@ -81,21 +82,14 @@ double findLocalExtremum(function<double(double)> func, double x)
     cout << "Computation timed out. " << endl;
     return numeric_limits<double>::quiet_NaN();
 }
-//
-//float calculateCurveLength(float (*func)(float), float start, float end)
-//{
-//    float startValue = derivative(start);
-//    float endValue = derivative(end);
-//    return 0.5f * (sqrt(endValue * endValue + 1) * endValue + 1 / sinh(endValue) -
-//                sqrt(startValue * startValue + 1) * startValue - 1 / sinh(startValue));
-//}
 
-sf::Vertex* plotVisibleChart(double (*func)(double), int pointCount)
+sf::Vertex* plotVisibleChart(function<double(double)> func, int pointCount)
 {
     // Create chart
     sf::Vertex* chart = new sf::Vertex[pointCount];
     for(int i = 0; i < pointCount; i++)
     {
+        // Choose X coordinates that are visible on the screen
         double x = (((float)i + 0.5f - pointCount / 2) / (pointCount - 1) * windowWidth) / scale + cameraX;
         double y = func(x);
 
@@ -106,7 +100,6 @@ sf::Vertex* plotVisibleChart(double (*func)(double), int pointCount)
         }
         else
         {
-//            chart[i].color = sf::Color{255 * i / pointCount, 255 - 255 * i / pointCount, 255};
             chart[i].color = sf::Color::Magenta;
             chart[i].position = sf::Vector2f{x, y};
         }
@@ -126,11 +119,6 @@ int main()
     sf::Vertex* chart = plotVisibleChart(&yFunction, pointCount);
 
     // Extra graphics
-    sf::Font font{};
-    if(!font.loadFromFile("arial.ttf"))
-    {
-        app.close();
-    }
 
     sf::Vertex lines[4];
     for(int i = 0; i < 4; i++)
@@ -139,18 +127,22 @@ int main()
         lines[i].color = sf::Color::White;
     }
 
+    sf::Vertex cameraLine[2];
+    cameraLine[0].color = sf::Color{100, 100, 100};
+    cameraLine[1].color = sf::Color{100, 100, 100};
+
+    sf::Font font{};
+    if(!font.loadFromFile("arial.ttf"))
+    {
+        app.close();
+    }
+
     sf::Text zoomText{"", font, 24};
     zoomText.setFillColor(sf::Color::Cyan);
 
     sf::Text exitText{"Press M to find local extremum", font, 24};
     exitText.setFillColor(sf::Color::Cyan);
     exitText.setPosition(0, 30);
-
-    sf::Vertex cameraLine[2];
-    cameraLine[0].position = sf::Vector2f{windowWidth / 2, 0};
-    cameraLine[0].color = sf::Color{100, 100, 100};
-    cameraLine[1].position = sf::Vector2f{windowWidth / 2, windowHeight};
-    cameraLine[1].color = sf::Color{100, 100, 100};
 
     // Start the display loop
     while(app.isOpen())
@@ -207,8 +199,7 @@ int main()
                 case sf::Keyboard::Return:
                     app.close();
                     return EXIT_SUCCESS;
-                case sf::Keyboard::M:
-                {
+                case sf::Keyboard::M: {
                     double extremum = findLocalExtremum(&yFunction, cameraX);
 
                     if(!isnan(extremum))
@@ -223,8 +214,7 @@ int main()
                         }
                     }
                     break;
-                }
-                default:
+                } default:
                     break;
                 }
                 break;
@@ -261,10 +251,12 @@ int main()
         lines[2].position = sf::Vector2f{cameraX - (float)windowHeight / scale, 0};
         lines[3].position = sf::Vector2f{cameraX + (float)windowHeight / scale, 0};
 
+        cameraLine[0].position = sf::Vector2f{windowWidth / 2, 0};
+        cameraLine[1].position = sf::Vector2f{windowWidth / 2, windowHeight};
+
         app.draw(cameraLine, 2, sf::Lines);
         app.draw(lines, 4, sf::Lines, transform);
         app.draw(chart, pointCount, sf::LineStrip, transform);
-
 
         zoomText.setString("Zoom: " + to_string(scale / INITIAL_SCALE));
 

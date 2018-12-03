@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1541935745 source:/media/yurik/90CC-00C2/Uni/Code/LinuxTest/main.cpp
+	<iostream>
+
+1542650720 source:/media/sdb1/Uni/Code/LinuxTest/main.cpp
+	<iostream>
+	<stack>
+	<queue>
+	<sstream>
+	<typeinfo>
+	<map>
+	"tokens.h"
+	"utils.h"
+
+1542641604 source:/media/sdb1/Uni/Code/LinuxTest/main2.cpp
+
+1542649665 source:/media/sdb1/Uni/Code/LinuxTest/tokens.cpp
+	"tokens.h"
+	"utils.h"
+	<cmath>
+	<iostream>
+
+1542648483 /media/sdb1/Uni/Code/LinuxTest/tokens.h
+	<stack>
+	<iostream>
+
+1542650605 /media/sdb1/Uni/Code/LinuxTest/utils.h
+	<stdexcept>
+	<stack>
+	<queue>
+

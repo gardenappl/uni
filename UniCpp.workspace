@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="BigMathDecimal/BigMathDecimal.cbp" />
+		<Project filename="Arrays/Arrays.cbp" />
+		<Project filename="SFMLTest/SFMLTest.cbp" />
+		<Project filename="LinuxTest/LinuxTest.cbp" />
+		<Project filename="StringSearch/StringSearch.cbp" />
+		<Project filename="../../../../home/yurik/Documents/Code/Test/Exam2/Exam2.cbp" />
+		<Project filename="FileOp/FileOp.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

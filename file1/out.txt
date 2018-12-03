@@ -1,0 +1,6 @@
+sring number 0: 1231231 !!! 
+sring number 1: 312312312321 !!! 
+sring number 2: 3143243242 !!! 
+sring number 3: 243324242 !!! 
+sring number 4: 4324234324 !!! 
+sring number 5: 2342342342342 !!! 
