@@ -3,14 +3,15 @@
 #include <iostream>
 #include <exception>
 #include <memory>
+#include <clocale>
 
 using namespace std;
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
+	setlocale(LC_ALL, "ru-RU");
 
-	shared_ptr<OtherClass> obj(new OtherClass());
+//	shared_ptr<OtherClass> obj(new OtherClass());
 
 	cout << "Какое задание? (5 или 12)" << endl;
 	int num;

@@ -195,7 +195,7 @@ int main()
 //    string test = "4 1 n ^";
 //    cout << executePolishNotation(parseTokenSequence(test)) << endl;
 
-    string test2 = "-1 + (5+3) / (2 ^-1)   -1";
+    string test2 = "-1 + (5+3) / (2 ^-1) -1";
     cout << test2 << endl << endl;
 
     queue<Token*> sequence = parseTokenSequence(test2, true);

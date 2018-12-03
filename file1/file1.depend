@@ -1,6 +1,0 @@
-# depslib dependency file v1.0
-1542279498 source:/media/sdb1/Uni/Code/file1/main.cpp
-	<iostream>
-	<stdio.h>
-	<stdlib.h>
-
