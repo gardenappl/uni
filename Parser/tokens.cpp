@@ -120,6 +120,8 @@ void UnaryOperatorToken::stackAction(stack<double>& execStack) const
 	double num = safePop(execStack);
 	if(operatorType == UnaryOperator::Negative)
 		execStack.push(-num);
+	else
+		execStack.push(num);
 }
 
 int UnaryOperatorToken::getPrecedence() const
