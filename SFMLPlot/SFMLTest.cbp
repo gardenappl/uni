@@ -8,6 +8,7 @@
 		<Build>
 			<Target title="Release">
 				<Option output="bin/Release/SFMLTest" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/Release" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -35,7 +36,7 @@
 			<Add library="dxguid" />
 			<Add directory="../libs/SFML-2.4.0/lib" />
 		</Linker>
-		<Unit filename="arial.ttf" />
+		<Unit filename="LiberationSans-Regular.ttf" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

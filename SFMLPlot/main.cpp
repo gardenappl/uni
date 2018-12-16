@@ -23,7 +23,7 @@ float scale = INITIAL_SCALE;
 
 double yFunction(double x)
 {
-    return sin(x) * x;
+    return sqrt(abs(x));
 }
 
 function<double(double)> createDerivativeFunction(function<double(double)> func)
