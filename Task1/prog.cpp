@@ -13,7 +13,7 @@ int main()
 {
 	setlocale(LC_ALL, "ru-RU");
 
-	cout << "Какое задание ? (5  12)" << endl;
+	cout << "Какое задание? (5 или 12)" << endl;
 	int num;
 	cin >> num;
 	switch(num)
