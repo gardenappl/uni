@@ -4,14 +4,14 @@
 #include <exception>
 #include <memory>
 #include <clocale>
+#include <cstdint>
 
 using namespace std;
+
 
 int main()
 {
 	setlocale(LC_ALL, "ru-RU");
-
-//	shared_ptr<OtherClass> obj(new OtherClass());
 
 	cout << "Какое задание? (5 или 12)" << endl;
 	int num;
@@ -28,6 +28,7 @@ int main()
 		throw invalid_argument("Задание не имплементировано");
 	}
 }
+
 
 void Prog::task1_5()
 {
@@ -53,27 +54,20 @@ void Prog::task1_5()
 	cout << "Всего результатов: " << total << endl;
 }
 
-//bool Prog::isPrime(const int& num) {
-//	for(int i = 2; i <= num / 2; i++) {
-//		if(num % i == 0) {
-//			return false;
-//		}
-//	}
-//	return true;
-//}
+//(число виводиться, але в hex формі :Р)
 
 void Prog::task1_12()
 {
-	int_fast16_t power;
+	uint_fast8_t power;
 	cout << "Какая степень? ";
 	cin >> power;
 
-	//125 chars == 1000 bits, so 2^1000 is OK
-	//most significant digits go first
-	const int_fast16_t arrLength = 125;
+	//125 * 8 == 1000 бітів, як раз для 2^1000
+	//порядок зі старшого члена до молодшого
+	const uint_fast8_t arrLength = 125;
 	unsigned char numData [125] = {};
 
-	int_fast16_t bytePos = arrLength - 1 - power / 8;
+	uint_fast8_t bytePos = arrLength - 1 - power / 8;
 
 //	cout << "(байт: " << bytePos << " позиция: " << (power % 8) << ")" << endl;
 	numData[bytePos] |= (1 << (power % 8));

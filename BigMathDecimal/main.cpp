@@ -7,6 +7,9 @@ using namespace std;
 const uint32_t MAX_VALUE = 999999999;
 const int MAX_DIGITS = 9;
 
+//copy-pasted function from Stack Overflow
+//parse a specific amount of characters
+
 int toInt(char const* s, int length)
 {
      if ( s == nullptr || *s == '\0' )
@@ -23,6 +26,10 @@ int toInt(char const* s, int length)
      return result;
 }
 
+
+//Represented as an array of numbers of size <= MAX_VALUE (which take up at most MAX_DIGITS in decimal)
+//Arithmetic is done via standard "long arithmetic", but instead of digits 0-9, it operates with integers 0-999999999
+//Took a long time to write, but I wanted to see how classes worked in C++, so I was OK with over-engineering.
 class BigInteger
 {
 private:
@@ -31,6 +38,8 @@ private:
 
 	BigInteger(uint32_t* data, int dataLength);
 
+	//Teacher's criticism: should've encapsulated more instead of passing raw data pointers to methods.
+	//A bit ugly, but these methods are private, so this shouldn't be too much of a problem.
 	static void addIntAtPos(uint32_t num, int pos, uint32_t* data);
 	static void addIntArrayAtPos(uint32_t* nums, int count, int pos, uint32_t* data);
 	static BigInteger add(uint32_t* data1, int dataLength1, uint32_t* data2, int dataLength2);
@@ -132,6 +141,8 @@ BigInteger BigInteger::multiply(uint32_t* data1, int dataLength1, uint32_t* data
 		resultData[i] = 0;
 	}
 
+	int resultLength = dataLength1 + dataLength2;
+
 	for(int i = 0; i < dataLength1; i++)
 	{
 		for(int j = 0; j < dataLength2; j++)
@@ -149,18 +160,20 @@ BigInteger BigInteger::multiply(uint32_t* data1, int dataLength1, uint32_t* data
 		}
 	}
 
-	int resultLength = dataLength1 + dataLength2;
-	for(int i = resultLength - 1; i >= 0; i++)
-	{
-		if(resultData[i] == 0)
-		{
-			resultLength--;
-		}
-		else
-		{
-			break;
-		}
-	}
+	if(resultData[resultLength - 1] == 0)
+        resultLength--;
+
+//	for(int i = resultLength - 1; i >= 0; i--)
+//	{
+//		if(resultData[i] == 0)
+//		{
+//			resultLength--;
+//		}
+//		else
+//		{
+//			break;
+//		}
+//	}
 
 	return BigInteger(resultData, resultLength);
 }
