@@ -1,7 +1,7 @@
 *.workspace
 *.layout
-**/bin/
-**/obj/
+**/bin/*
+**/obj/*
 */*.depend
 */.directory
 .directory

@@ -1,6 +1,0 @@
-Train #1
-Arrival time: 1552605498
-Departure time: 1552630498
-Tickets wanted: 10
-Tickets available: 9
-(Popularity ratio: 1.11111)

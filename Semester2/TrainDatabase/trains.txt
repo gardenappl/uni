@@ -1,2 +1,0 @@
-Train #1 "Hype Train"
-	Type: HighSpeed
