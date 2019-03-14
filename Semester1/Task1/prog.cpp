@@ -13,7 +13,7 @@ int main()
 {
 	setlocale(LC_ALL, "ru-RU");
 
-	cout << "Какое задание? (5 или 12)" << endl;
+	cout << "РљР°РєРѕРµ Р·Р°РґР°РЅРёРµ? (5 РёР»Рё 12)" << endl;
 	int num;
 	cin >> num;
 	switch(num)
@@ -25,7 +25,7 @@ int main()
 		Prog::task1_12();
 		break;
 	default:
-		throw invalid_argument("Задание не имплементировано");
+		throw invalid_argument("Р—Р°РґР°РЅРёРµ РЅРµ РёРјРїР»РµРјРµРЅС‚РёСЂРѕРІР°РЅРѕ");
 	}
 }
 
@@ -33,7 +33,7 @@ int main()
 void Prog::task1_5()
 {
 	int n, total = 0;
-	cout << "Привет" << endl << "Введите N: ";
+	cout << "РџСЂРёРІРµС‚" << endl << "Р’РІРµРґРёС‚Рµ N: ";
 	cin >> n;
 
 	for(int z = 0; z <= n; z++)
@@ -51,25 +51,25 @@ void Prog::task1_5()
 			}
 		}
 	}
-	cout << "Всего результатов: " << total << endl;
+	cout << " : " << total << endl;
 }
 
-//(число виводиться, але в hex формі :Р)
+//(С‡РёСЃР»Рѕ РІРёРІРѕРґРёС‚СЊСЃСЏ, Р°Р»Рµ РІ hex С„РѕСЂРјС– :Р )
 
 void Prog::task1_12()
 {
 	uint_fast8_t power;
-	cout << "Какая степень? ";
+	cout << " ? ";
 	cin >> power;
 
-	//125 * 8 == 1000 бітів, як раз для 2^1000
-	//порядок зі старшого члена до молодшого
+	//125 * 8 == 1000 Р±С–С‚С–РІ, СЏРє СЂР°Р· РґР»СЏ 2^1000
+	//РїРѕСЂСЏРґРѕРє Р·С– СЃС‚Р°СЂС€РѕРіРѕ С‡Р»РµРЅР° РґРѕ РјРѕР»РѕРґС€РѕРіРѕ
 	const uint_fast8_t arrLength = 125;
 	unsigned char numData [125] = {};
 
 	uint_fast8_t bytePos = arrLength - 1 - power / 8;
 
-//	cout << "(байт: " << bytePos << " позиция: " << (power % 8) << ")" << endl;
+//	cout << "(Р±Р°Р№С‚: " << bytePos << " РїРѕР·РёС†РёСЏ: " << (power % 8) << ")" << endl;
 	numData[bytePos] |= (1 << (power % 8));
 
 	cout << "hex: " << hex;
