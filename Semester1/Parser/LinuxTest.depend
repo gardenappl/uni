@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1548227620 source:/home/yurik/Code/uni/Parser/main.cpp
+	<iostream>
+	<stack>
+	<queue>
+	<sstream>
+	<typeinfo>
+	<map>
+	"tokens.h"
+	"utils.h"
+
+1548227620 /home/yurik/Code/uni/Parser/tokens.h
+	<stack>
+	<iostream>
+
+1548227620 /home/yurik/Code/uni/Parser/utils.h
+	<stdexcept>
+	<stack>
+	<queue>
+
+1548227620 source:/home/yurik/Code/uni/Parser/tokens.cpp
+	"tokens.h"
+	"utils.h"
+	<cmath>
+	<iostream>
+
+1548227620 source:/home/yurik/Code/uni/Semester1/Parser/main.cpp
+	<iostream>
+	<stack>
+	<queue>
+	<sstream>
+	<typeinfo>
+	<map>
+	"tokens.h"
+	"utils.h"
+
+1548227620 /home/yurik/Code/uni/Semester1/Parser/tokens.h
+	<stack>
+	<iostream>
+
+1548227620 /home/yurik/Code/uni/Semester1/Parser/utils.h
+	<stdexcept>
+	<stack>
+	<queue>
+
+1548227620 source:/home/yurik/Code/uni/Semester1/Parser/tokens.cpp
+	"tokens.h"
+	"utils.h"
+	<cmath>
+	<iostream>
+

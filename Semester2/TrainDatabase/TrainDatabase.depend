@@ -1,0 +1,79 @@
+# depslib dependency file v1.0
+1552602135 source:/home/yurik/Code/uni/Semester2/TrainDatabase/main.cpp
+	"TrainDatabase.h"
+	"DemoMode.h"
+	"InteractiveMode.h"
+	"BenchmarkMode.h"
+
+1552600390 source:/home/yurik/Code/uni/Semester2/TrainDatabase/src/TrainDatabase.cpp
+	<functional>
+	<vector>
+	<string>
+	<iostream>
+	<fstream>
+	<sstream>
+	<boost/optional.hpp>
+	<boost/lexical_cast.hpp>
+	"TrainDatabase.h"
+
+1552600219 /home/yurik/Code/uni/Semester2/TrainDatabase/include/TrainDatabase.h
+	<string>
+	<ctime>
+	<vector>
+	<functional>
+	<fstream>
+	<map>
+	<boost/optional.hpp>
+
+1550836096 /home/yurik/Code/uni/Semester2/TrainDatabase/include/Nullable.h
+	<cstring>
+
+1552580231 /home/yurik/Code/uni/Semester2/TrainDatabase/include/DemoMode.h
+
+1552591421 source:/home/yurik/Code/uni/Semester2/TrainDatabase/src/DemoMode.cpp
+	"DemoMode.h"
+	<iostream>
+	<fstream>
+	<vector>
+	"TrainDatabase.h"
+
+1552591372 /home/yurik/Code/uni/Semester2/TrainDatabase/include/InteractiveMode.h
+	"TrainDatabase.h"
+
+1552592217 source:/home/yurik/Code/uni/Semester2/TrainDatabase/src/InteractiveMode.cpp
+	"InteractiveMode.h"
+	<iostream>
+	<string>
+	<fstream>
+	<vector>
+	<TrainDatabase.h>
+
+1552601822 /home/yurik/Code/uni/Semester2/TrainDatabase/include/BenchmarkMode.h
+	"TrainDatabase.h"
+	<chrono>
+	<functional>
+	<string>
+
+1552602124 source:/home/yurik/Code/uni/Semester2/TrainDatabase/src/BenchmarkMode.cpp
+	"BenchmarkMode.h"
+	<chrono>
+	<iostream>
+	<random>
+	<string>
+	<vector>
+	<fstream>
+	<functional>
+	<boost/optional.hpp>
+	"TrainDatabase.h"
+
+1552592331 /home/yurik/Code/uni/Semester2/TrainDatabase/src/TrainDatabase.cpp
+	<functional>
+	<vector>
+	<string>
+	<iostream>
+	<fstream>
+	<sstream>
+	<boost/optional.hpp>
+	<boost/lexical_cast.hpp>
+	"TrainDatabase.h"
+

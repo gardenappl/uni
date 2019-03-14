@@ -1,0 +1,29 @@
+Train #1 "Hype Train"
+	Type: HighSpeed
+Train #10
+	Type: International
+Stations: 
+Ticket #1
+Train #1
+Arrival time: 1552592155
+Departure time: 1552602155
+Tickets wanted: 0
+Tickets available: 6
+Ticket #2
+Train #10
+Arrival time: 1552627155
+Departure time: 1552652155
+Tickets wanted: 10
+Tickets available: 9
+Ticket #3
+Train #10
+Arrival time: 1552602156
+Departure time: 1552602157
+Tickets wanted: 1
+Tickets available: 9
+Ticket #4
+Train #1
+Arrival time: 1552602155
+Departure time: 1552612155
+Tickets wanted: 9
+Tickets available: 9

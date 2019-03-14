@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1548265375 source:/home/yurik/Code/uni/BigMathDecimal/main.cpp
+	<iostream>
+	<string>
+	<iomanip>
+

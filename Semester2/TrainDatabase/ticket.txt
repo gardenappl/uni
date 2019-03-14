@@ -1,0 +1,6 @@
+Ticket #4
+Train #1
+Arrival time: 1552602155
+Departure time: 1552612155
+Tickets wanted: 9
+Tickets available: 9

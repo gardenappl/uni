@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1548262923 source:/home/yurik/Code/uni/Task1/OtherClass.cpp
+	<iostream>
+	"OtherClass.h"
+
+1548227620 /home/yurik/Code/uni/Task1/OtherClass.h
+
+1548263539 source:/home/yurik/Code/uni/Task1/prog.cpp
+	"prog.h"
+	"OtherClass.h"
+	<iostream>
+	<exception>
+	<memory>
+	<clocale>
+	<cstdint>
+
+1548227620 /home/yurik/Code/uni/Task1/prog.h
+
