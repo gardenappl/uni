@@ -7,8 +7,8 @@
 
 int main()
 {
-    InteractiveMode::run();
+    //InteractiveMode::run();
     //run_demo_mode();
-    //BenchmarkMode::run(BenchmarkMode::benchmark_action_txt_test, "benchmark-database.bin");
+    BenchmarkMode::run(BenchmarkMode::benchmark_action_txt_test, "benchmark-database.txt");
     //BenchmarkMode::run(BenchmarkMode::benchmark_action_txt_test, "benchmark-database.txt");
 }

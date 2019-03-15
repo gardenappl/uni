@@ -82,9 +82,9 @@ public:
 
 
     //Returns IDs as it's more efficient than copying Train objects
-    //(I could also return pointers to trains but those will all get invalidated when/if the
-    // original train array is modified)
-    std::vector<int> find_all_tickets(std::function<bool(const TicketInfo&)> predicate) const;
+    std::vector<int32_t> find_all_tickets(const std::function<bool(const TicketInfo&)>& predicate) const;
+    //Returns const reference (might get invalidated if the original tickets map is modified!)
+    const std::map<int32_t, TicketInfo>& get_tickets();
 
     void print() const;
 
@@ -95,7 +95,7 @@ public:
     static StationScheduleDatabase* load_bin(std::ifstream& file);
 
 private:
-    std::map<int16_t, TicketInfo> tickets;
+    std::map<int32_t, TicketInfo> tickets;
 };
 
 

@@ -12,7 +12,7 @@
 void InteractiveMode::run()
 {
     std::cout << "Welcome to the Train Database" << std::endl;
-    std::cout << "The interactive part of the program is barebones (and doesn't usually check for out-of-bounds values)" << std::endl
+    std::cout << "The interactive part of the program is barebones (and doesn't usually check for out-of-bounds values)" << std::endl;
     std::cout << "Available commands: quit, add, search, delete, print, save-bin, load-bin, save-txt, load-txt" << std::endl;
 
     StationScheduleDatabase* db = new StationScheduleDatabase;

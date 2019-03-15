@@ -52,8 +52,8 @@ void BenchmarkMode::run(std::function<void(StationScheduleDatabase*&, std::strin
         diff = end - start;
 
         delete db;
-        std::cout << n << " entries: " << diff.count() << " s" << std::endl;
-        std::cout << "File size: " << std::to_string(BenchmarkMode::get_file_size(file_name)) << " bytes" << std::endl;
+        std::cout << diff.count() << " s File size: " <<
+                std::to_string(BenchmarkMode::get_file_size(file_name)) << " bytes" << std::endl;
     }while(diff < std::chrono::seconds(10));
 
     std::cout << "Average per 10 seconds: " << (int)(n * std::chrono::seconds(10) / diff) << std::endl;
@@ -94,6 +94,7 @@ void BenchmarkMode::benchmark_action_binary_test(StationScheduleDatabase*& datab
     input_file.close();
 
     BenchmarkMode::test_search(database);
+    delete database;
 }
 
 void BenchmarkMode::benchmark_action_txt_test(StationScheduleDatabase*& database, std::string file_name)
@@ -133,11 +134,15 @@ void BenchmarkMode::test_search(StationScheduleDatabase* database)
                 return ticket.arrival_time <= arrival_time;
             };
 
+    std::cout << database->get_tickets().size() << " entries total; ";
     std::vector<int> search_result = database->find_all_tickets(search_pop_ratio);
+    std::cout << search_result.size() << " entries found, ";
     search_result.clear();
     search_result = database->find_all_tickets(search_query_string);
+    std::cout << search_result.size() << " entries found, ";
     search_result.clear();
     search_result = database->find_all_tickets(search_arrival_time);
+    std::cout << search_result.size() << " entries found." << std::endl;
     search_result.clear();
 }
 
@@ -145,5 +150,7 @@ void BenchmarkMode::test_search(StationScheduleDatabase* database)
 int BenchmarkMode::get_file_size(std::string file_name)
 {
     std::ifstream in(file_name, std::ifstream::ate | std::ifstream::binary); //open file at the end
-    return (int)in.tellg(); //get the crrent position in bytes
+    int file_size = (int)in.tellg(); //get the crrent position in bytes
+    in.close();
+    return file_size;
 }

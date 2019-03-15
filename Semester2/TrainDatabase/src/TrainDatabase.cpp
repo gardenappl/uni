@@ -318,7 +318,7 @@ TicketInfo TicketInfo::load_bin(std::ifstream& file)
 
 void StationScheduleDatabase::add_ticket(TicketInfo ticket_info)
 {
-    this->tickets.insert(std::pair<int16_t, TicketInfo>(ticket_info.ticket_id, ticket_info));
+    this->tickets.insert(std::pair<int32_t, TicketInfo>(ticket_info.ticket_id, ticket_info));
 }
 
 boost::optional<TicketInfo> StationScheduleDatabase::get_ticket(int id)
@@ -343,7 +343,7 @@ bool StationScheduleDatabase::delete_ticket(int id)
     return false;
 }
 
-std::vector<int> StationScheduleDatabase::find_all_tickets(std::function<bool(const TicketInfo&)> predicate) const
+std::vector<int> StationScheduleDatabase::find_all_tickets(const std::function<bool(const TicketInfo&)>& predicate) const
 {
     std::vector<int> tickets;
     for(const std::pair<int, TicketInfo>& element : this->tickets)
@@ -354,6 +354,11 @@ std::vector<int> StationScheduleDatabase::find_all_tickets(std::function<bool(co
         }
     }
     return tickets;
+}
+
+const std::map<int32_t, TicketInfo>& StationScheduleDatabase::get_tickets()
+{
+    return this->tickets;
 }
 
 void StationScheduleDatabase::print() const
