@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1553254452 source:/home/yurik/Code/uni/Semester2/Test1/main.cpp
+1553293645 source:/home/yurik/Code/uni/Semester2/Test1/main.cpp
 	<iostream>
 	<cmath>
 	<cstdlib>
 	<utility>
+	<ctime>
 
