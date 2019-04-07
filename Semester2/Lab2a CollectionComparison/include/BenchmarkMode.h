@@ -19,9 +19,11 @@ public:
 
 private:
     template<typename T, template<typename> typename DequeT>
-    static void scenario_one_side_test(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale);
+    static void scenario_one_side(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale);
     template<typename T, template<typename> typename DequeT>
-    static void scenario_two_side_test(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale);
+    static void scenario_two_side(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale);
+    template<typename T, template<typename> typename DequeT>
+    static void scenario_random_operation(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale);
 
     static int n_40_percent;
     static void adjust_n(std::chrono::duration<double> last_duration, int* n);

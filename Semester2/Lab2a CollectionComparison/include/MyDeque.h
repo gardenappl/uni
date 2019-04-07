@@ -25,6 +25,7 @@ struct Deque
     virtual T pop_left() = 0;
     virtual T pop_right() = 0;
     virtual bool is_empty() const = 0;
+    virtual int get_count() const = 0;
 };
 
 
@@ -41,6 +42,7 @@ struct VectorDeque : public Deque<T>
     T pop_left() override;
     T pop_right() override;
     bool is_empty() const override;
+    int get_count() const override;
 
 private:
     std::vector<T> data_vector;
@@ -50,6 +52,12 @@ template<typename T>
 bool VectorDeque<T>::is_empty() const
 {
     return data_vector.empty();
+}
+
+template<typename T>
+int VectorDeque<T>::get_count() const
+{
+    return data_vector.size();
 }
 
 template<typename T>
@@ -83,7 +91,9 @@ template<typename T>
 T VectorDeque<T>::pop_left()
 {
     if(this->data_vector.empty())
+    {
         throw std::runtime_error(ErrorMessages::pop_empty_deque_message);
+    }
 
     T value = this->data_vector[0];
     this->data_vector.erase(this->data_vector.begin());
@@ -94,7 +104,9 @@ template<typename T>
 T VectorDeque<T>::pop_right()
 {
     if(this->data_vector.empty())
+    {
         throw std::runtime_error(ErrorMessages::pop_empty_deque_message);
+    }
     T value = this->data_vector.back();
     this->data_vector.pop_back();
     return value;
@@ -115,6 +127,7 @@ struct ArrayDeque : public Deque<T>
     T pop_left() override;
     T pop_right() override;
     bool is_empty() const override;
+    int get_count() const override;
 
 private:
     T* data_array;
@@ -135,6 +148,12 @@ bool ArrayDeque<T>::is_empty() const
 }
 
 template<typename T>
+int ArrayDeque<T>::get_count() const
+{
+    return data_size;
+}
+
+template<typename T>
 ArrayDeque<T>::~ArrayDeque()
 {
     delete data_array;
@@ -144,7 +163,9 @@ template<typename T>
 void ArrayDeque<T>::append_left(const T& value)
 {
     if(data_size == array_size)
+    {
         throw std::runtime_error(ErrorMessages::array_deque_overflow);
+    }
     data_start = (data_start == 0) ? (array_size - 1) : (data_start - 1);
     data_size++;
     data_array[data_start] = value;
@@ -154,7 +175,9 @@ template<typename T>
 void ArrayDeque<T>::append_right(const T& value)
 {
     if(data_size == array_size)
+    {
         throw std::runtime_error(ErrorMessages::array_deque_overflow);
+    }
     data_size++;
     data_array[(data_start + data_size - 1) % array_size] = value;
 }
@@ -179,7 +202,9 @@ template<typename T>
 T ArrayDeque<T>::pop_left()
 {
     if(data_size == 0)
+    {
         throw std::runtime_error(ErrorMessages::pop_empty_deque_message);
+    }
     T value = data_array[data_start];
     data_start = (data_start + 1) % array_size;
     data_size--;
@@ -190,7 +215,9 @@ template<typename T>
 T ArrayDeque<T>::pop_right()
 {
     if(data_size == 0)
+    {
         throw std::runtime_error(ErrorMessages::pop_empty_deque_message);
+    }
     T value = data_array[(data_start + data_size - 1) % array_size];
     data_size--;
     return value;
@@ -216,12 +243,16 @@ struct DoubleNode
 template<typename T>
 DoubleNode<T>::DoubleNode(T value)
 : value(value), prev(nullptr), next(nullptr)
-{ /*DoubleNode<T>::total++;*/ }
+{
+    /*DoubleNode<T>::total++;*/
+}
 
 template<typename T>
 DoubleNode<T>::DoubleNode(T value, DoubleNode<T>* prev, DoubleNode<T>* next)
 : value(value), prev(prev), next(next)
-{ /*DoubleNode<T>::total++;*/ }
+{
+    /*DoubleNode<T>::total++;*/
+}
 
 //template<typename T>
 //DoubleNode<T>::~DoubleNode()
@@ -236,8 +267,10 @@ struct LinkedDeque : public Deque<T>
 
     DoubleNode<T>* start = nullptr;
     DoubleNode<T>* end = nullptr;
+    int count = 0;
 
     bool is_empty() const override;
+    int get_count() const override;
     void append_left(const T& value) override;
     void append_right(const T& value) override;
     void print() const override;
@@ -264,6 +297,12 @@ bool LinkedDeque<T>::is_empty() const
 }
 
 template<typename T>
+int LinkedDeque<T>::get_count() const
+{
+    return count;
+}
+
+template<typename T>
 void LinkedDeque<T>::append_left(const T& value)
 {
     if(is_empty())
@@ -277,6 +316,7 @@ void LinkedDeque<T>::append_left(const T& value)
         start->prev = new_node;
         start = new_node;
     }
+    count++;
 }
 
 template<typename T>
@@ -293,6 +333,7 @@ void LinkedDeque<T>::append_right(const T& value)
         end->next = new_node;
         end = new_node;
     }
+    count++;
 }
 
 template<typename T>
@@ -319,6 +360,11 @@ void LinkedDeque<T>::print() const
 template<typename T>
 T LinkedDeque<T>::pop_left()
 {
+    if(is_empty())
+    {
+        throw std::runtime_error(ErrorMessages::pop_empty_deque_message);
+    }
+
     T value = start->value;
     DoubleNode<T>* old_start = start;
     start = old_start->next;
@@ -330,13 +376,20 @@ T LinkedDeque<T>::pop_left()
     {
         start->prev = nullptr;
     }
+    //std::cout << "Deleting " << old_start << std::endl;
     delete old_start;
+    count--;
     return value;
 }
 
 template<typename T>
 T LinkedDeque<T>::pop_right()
 {
+    if(is_empty())
+    {
+        throw std::runtime_error(ErrorMessages::pop_empty_deque_message);
+    }
+
     T value = end->value;
     DoubleNode<T>* old_end = end;
     end = old_end->prev;
@@ -348,7 +401,9 @@ T LinkedDeque<T>::pop_right()
     {
         end->next = nullptr;
     }
+    //std::cout << "Deleting " << old_end << std::endl;
     delete old_end;
+    count--;
     return value;
 }
 

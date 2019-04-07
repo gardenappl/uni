@@ -36,11 +36,13 @@
 		</Compiler>
 		<Unit filename="include/BenchmarkMode.h" />
 		<Unit filename="include/DemoMode.h" />
+		<Unit filename="include/InteractiveMode.h" />
 		<Unit filename="include/IpAddress.h" />
 		<Unit filename="include/MyDeque.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/BenchmarkMode.cpp" />
 		<Unit filename="src/DemoMode.cpp" />
+		<Unit filename="src/InteractiveMode.cpp" />
 		<Unit filename="src/IpAddress.cpp" />
 		<Extensions>
 			<code_completion />

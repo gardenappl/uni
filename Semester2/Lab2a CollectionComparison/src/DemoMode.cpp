@@ -51,7 +51,7 @@ void DemoMode::run()
 
     std::cout << "LinkedDeque test: " << std::endl;
     ip_deque = new LinkedDeque<IpAddress>;
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 5; i++)
     {
         ip_deque->print();
         if(i % 2)
@@ -60,7 +60,7 @@ void DemoMode::run()
             ip_deque->append_right(IpAddress(i));
     }
     ip_deque->print();
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 5; i++)
     {
         ip_deque->print();
         if(i % 2)

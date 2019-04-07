@@ -441,9 +441,9 @@ Stack<T>::~Stack()
     Node<T>* current_node = this->top;
     while(current_node)
     {
-        Node<T>* next_node = this->top->next;
+        Node<T>* next_node = current_node->next;
         delete current_node;
-        current_node = current_node->next;
+        current_node = next_node;
     }
 }
 
