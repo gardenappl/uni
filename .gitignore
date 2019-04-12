@@ -2,7 +2,7 @@
 *.layout
 **/bin/*
 **/obj/*
-*/*.depend
+**/*.depend
 */.directory
 .directory
 */Test/
