@@ -35,6 +35,7 @@ void BenchmarkMode::run(std::function<void(StationScheduleDatabase*&, std::strin
 
         auto start = std::chrono::system_clock::now();
 
+
         for(int i = 0; i < n; i++)
         {
             int train_id = train_id_distribution(rng);
@@ -42,8 +43,8 @@ void BenchmarkMode::run(std::function<void(StationScheduleDatabase*&, std::strin
             {
                 GlobalTrainDatabase::add_train(Train(train_id, (TrainType)train_type_distribution(rng), bool_distribution(rng) ? "" : "A Train named " + std::to_string(train_id)));
             }
-            db->add_ticket(TicketInfo((int32_t)i, train_id, time_distribution(rng), time_distribution(rng),
-                    tickets_distribution(rng), tickets_distribution(rng)));
+            db->add_ticket(TicketInfo((int32_t)i, (int16_t)train_id, time_distribution(rng), time_distribution(rng),
+                    (int16_t)tickets_distribution(rng), (int16_t)tickets_distribution(rng)));
         }
 
         benchmark_action(db, file_name);
@@ -58,8 +59,7 @@ void BenchmarkMode::run(std::function<void(StationScheduleDatabase*&, std::strin
 
     std::cout << "Average per 10 seconds: " << (int)(n * std::chrono::seconds(10) / diff) << std::endl;
 
-    char c;
-    std::cin >> c; //stop to check RAM usage at the end of the benchmark
+    std::cin.ignore(); //stop to check RAM usage at the end of the benchmark
 }
 
 int BenchmarkMode::n_40_percent = 0;
@@ -94,7 +94,6 @@ void BenchmarkMode::benchmark_action_binary_test(StationScheduleDatabase*& datab
     input_file.close();
 
     BenchmarkMode::test_search(database);
-    delete database;
 }
 
 void BenchmarkMode::benchmark_action_txt_test(StationScheduleDatabase*& database, std::string file_name)

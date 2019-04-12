@@ -47,7 +47,11 @@ bool GlobalTrainDatabase::delete_train(int id)
 
 void GlobalTrainDatabase::clear()
 {
-    GlobalTrainDatabase::trains_by_id[GlobalTrainDatabase::MAX_TRAINS] = {boost::optional<Train>()};
+    for(int i = 0; i < MAX_TRAINS; i++)
+    {
+        GlobalTrainDatabase::trains_by_id[i] = boost::optional<Train>();
+    }
+//    GlobalTrainDatabase::trains_by_id[GlobalTrainDatabase::MAX_TRAINS] = {boost::optional<Train>()};
 }
 
 void GlobalTrainDatabase::print()
