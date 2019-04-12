@@ -232,37 +232,31 @@ struct DoubleNode
     T value;
     DoubleNode<T>* prev;
     DoubleNode<T>* next;
-    DoubleNode<T>(T value);
-    DoubleNode<T>(T value, DoubleNode<T>* prev, DoubleNode<T>* next);
-//    static int total;
-//    ~DoubleNode();
+    DoubleNode<T>(T value, DoubleNode<T>* prev = nullptr, DoubleNode<T>* next = nullptr);
+    static int total;
+    ~DoubleNode();
 };
-//template<typename T>
-//int DoubleNode<T>::total = 0;
-
 template<typename T>
-DoubleNode<T>::DoubleNode(T value)
-: value(value), prev(nullptr), next(nullptr)
-{
-    /*DoubleNode<T>::total++;*/
-}
+int DoubleNode<T>::total = 0;
 
 template<typename T>
 DoubleNode<T>::DoubleNode(T value, DoubleNode<T>* prev, DoubleNode<T>* next)
 : value(value), prev(prev), next(next)
 {
-    /*DoubleNode<T>::total++;*/
+    DoubleNode<T>::total++;
 }
 
-//template<typename T>
-//DoubleNode<T>::~DoubleNode()
-//{ std::cout << 'c'; total--; }
+template<typename T>
+DoubleNode<T>::~DoubleNode()
+{
+    //std::cout << 'c';
+    total--;
+}
 
 
 template<typename T>
 struct LinkedDeque : public Deque<T>
 {
-    LinkedDeque() {}
     ~LinkedDeque();
 
     DoubleNode<T>* start = nullptr;
@@ -281,12 +275,13 @@ struct LinkedDeque : public Deque<T>
 template<typename T>
 LinkedDeque<T>::~LinkedDeque()
 {
+//    std::cout << 'a';
     DoubleNode<T>* current_node = start;
     while(current_node)
     {
-        DoubleNode<T>* next_node = current_node->next;
-        delete current_node;
-        current_node = next_node;
+        DoubleNode<T>* old_node = current_node;
+        current_node = current_node->next;
+        delete old_node;
     }
 }
 
@@ -305,6 +300,7 @@ int LinkedDeque<T>::get_count() const
 template<typename T>
 void LinkedDeque<T>::append_left(const T& value)
 {
+//    std::cout << 'b';
     if(is_empty())
     {
         start = new DoubleNode<T>(value);
@@ -322,6 +318,7 @@ void LinkedDeque<T>::append_left(const T& value)
 template<typename T>
 void LinkedDeque<T>::append_right(const T& value)
 {
+//    std::cout << 'a';
     if(is_empty())
     {
         start = new DoubleNode<T>(value);

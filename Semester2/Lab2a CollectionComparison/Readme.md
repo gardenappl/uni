@@ -1,14 +1,14 @@
 Some benchmark results for double queues:
 ```
-LinkedDeque test, random operations:                 21,176,884 op/s (space constraint: 50331648 entries)
-LinkedDeque test, one way fill & clear:              19,849,831 op/s
-LinkedDeque test, two way fill & clear:              23,777,946 op/s
-Pre-allocated ArrayDeque test, random operations:    26,506,885 op/s (space constraint: 67108864 entries)
-Pre-allocated ArrayDeque test, one way fill & clear: 52,506,160 op/s
-Pre-allocated ArrayDeque test, two way fill & clear: 54,221,098 op/s
-VectorDeque test, random operations:                 7,846,371 op/s  (space constraint: 16777216 entries)
-VectorDeque test, one way fill & clear:              18,012,351 op/s
-VectorDeque test, two way fill & clear: (around 30,000 op/s, freezes during test)
+LinkedDeque test, random operations:                 21,668,508 op/s (space constraint: 50331648 entries)
+LinkedDeque test, one way fill & clear:              23,377,645 op/s
+LinkedDeque test, two way fill & clear:              19,040,206 op/s
+Pre-allocated ArrayDeque test, random operations:    30,817,406 op/s (space constraint: 67108864 entries)
+Pre-allocated ArrayDeque test, one way fill & clear: 82,987,963 op/s
+Pre-allocated ArrayDeque test, two way fill & clear: 64,828,658 op/s
+VectorDeque test, random operations:                 822,765 op/s  (space constraint: 16777216 entries)
+VectorDeque test, one way fill & clear:              77,887,620 op/s
+VectorDeque test, two way fill & clear: (around 50,000 op/s, freezes before finishing)
 ```
 
 (two-way means we push elements to the left, then to the right, then left, then right, ..., same with popping).

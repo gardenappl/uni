@@ -4,7 +4,6 @@
 #include <chrono>
 #include <ctime>
 
-
 //Robust benchmark code, allows for testing different scenarios with different types of elements and deques.
 //Also, overcomplicated.
 
@@ -15,19 +14,19 @@ IpAddress generate_ip_address()
 }
 
 template<typename T>
-ArrayDeque<T>* generate_array_exact_capacity(int test_scale)
+Deque<T>* generate_array_exact_capacity(int test_scale)
 {
     return new ArrayDeque<T>(test_scale);
 }
 
 template<typename T>
-LinkedDeque<T>* generate_linked_deque(int test_scale)
+Deque<T>* generate_linked_deque(int test_scale)
 {
     return new LinkedDeque<T>;
 }
 
 template<typename T>
-VectorDeque<T>* generate_vector_deque(int test_scale)
+Deque<T>* generate_vector_deque(int test_scale)
 {
     return new VectorDeque<T>;
 }
@@ -38,74 +37,75 @@ void BenchmarkMode::run()
 
     //could be organized better
     std::cout << "Pre-allocated ArrayDeque test, random operations: " << std::endl;
-    test_scenario<IpAddress, ArrayDeque>
-            (BenchmarkMode::scenario_random_operation<IpAddress, ArrayDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_random_operation<IpAddress>,
             generate_array_exact_capacity, generate_ip_address);
     std::cout << std::endl;
 
     std::cout << "Pre-allocated ArrayDeque test, one way fill & clear: " << std::endl;
-    test_scenario<IpAddress, ArrayDeque>
-            (BenchmarkMode::scenario_one_side<IpAddress, ArrayDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_one_side<IpAddress>,
             generate_array_exact_capacity, generate_ip_address);
     std::cout << std::endl;
 
     std::cout << "Pre-allocated ArrayDeque test, two way fill & clear: " << std::endl;
-    test_scenario<IpAddress, ArrayDeque>
-            (BenchmarkMode::scenario_two_side<IpAddress, ArrayDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_two_side<IpAddress>,
             generate_array_exact_capacity, generate_ip_address);
     std::cout << std::endl;
 
 
     std::cout << "LinkedDeque test, random operations: " << std::endl;
-    test_scenario<IpAddress, LinkedDeque>
-            (BenchmarkMode::scenario_random_operation<IpAddress, LinkedDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_random_operation<IpAddress>,
             generate_linked_deque, generate_ip_address);
     std::cout << std::endl;
 
     std::cout << "LinkedDeque test, one way fill & clear: " << std::endl;
-    test_scenario<IpAddress, LinkedDeque>
-            (BenchmarkMode::scenario_one_side<IpAddress, LinkedDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_one_side<IpAddress>,
             generate_linked_deque, generate_ip_address);
     std::cout << std::endl;
 
     std::cout << "LinkedDeque test, two way fill & clear: " << std::endl;
-    test_scenario<IpAddress, LinkedDeque>
-            (BenchmarkMode::scenario_two_side<IpAddress, LinkedDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_two_side<IpAddress>,
             generate_linked_deque, generate_ip_address);
     std::cout << std::endl;
 
 
     std::cout << "VectorDeque test, random operations: " << std::endl;
-    test_scenario<IpAddress, VectorDeque>
-            (BenchmarkMode::scenario_random_operation<IpAddress, VectorDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_random_operation<IpAddress>,
             generate_vector_deque, generate_ip_address);
     std::cout << std::endl;
 
     std::cout << "VectorDeque test, one way fill & clear: " << std::endl;
-    test_scenario<IpAddress, VectorDeque>
-            (BenchmarkMode::scenario_one_side<IpAddress, VectorDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_one_side<IpAddress>,
             generate_vector_deque, generate_ip_address);
     std::cout << std::endl;
 
     std::cout << "VectorDeque test, two way fill & clear: " << std::endl;
-    test_scenario<IpAddress, VectorDeque>
-            (BenchmarkMode::scenario_two_side<IpAddress, VectorDeque>,
+    test_scenario
+            (BenchmarkMode::scenario_two_side<IpAddress>,
             generate_vector_deque, generate_ip_address);
     std::cout << std::endl;
 }
 
-template<typename T, template<typename> typename DequeT>
-void BenchmarkMode::test_scenario(DequeTestScenario<T, DequeT> scenario,
-        DequeT<T>*(*deque_generator)(int), T(*element_generator)())
+template<typename T>
+void BenchmarkMode::test_scenario(DequeTestScenario<T> scenario,
+        Deque<T>*(*deque_generator)(int), T(*element_generator)())
 {
     auto start = std::chrono::system_clock::now();
     auto end = std::chrono::system_clock::now();
 
     std::chrono::duration<double> diff = end - start;
 
-    int n = 1024;
+    int n = 512;
     do
     {
+        BenchmarkMode::adjust_n(diff, &n);
         start = std::chrono::system_clock::now();
 
         scenario(deque_generator, element_generator, n);
@@ -113,11 +113,11 @@ void BenchmarkMode::test_scenario(DequeTestScenario<T, DequeT> scenario,
         end = std::chrono::system_clock::now();
         diff = end - start;
 
-        BenchmarkMode::adjust_n(diff, &n);
+//        std::cout << DoubleNode<IpAddress>::total << std::endl;
         std::cout << " (" << diff.count() << " s)" << std::endl;
     }while(diff < std::chrono::seconds(5));
 
-    std::cout << "Average operation speed (op/s): " << (int)(n * std::chrono::seconds(1) / diff) << std::endl;
+    std::cout << "Average operation speed (op/s): " << (int)(n * (std::chrono::seconds(1) / diff)) << std::endl;
 }
 
 int BenchmarkMode::n_40_percent = 0;
@@ -137,10 +137,10 @@ void BenchmarkMode::adjust_n(std::chrono::duration<double> last_duration, int* n
     }
 }
 
-template<typename T, template<typename> typename DequeT>
-void BenchmarkMode::scenario_one_side(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale)
+template<typename T>
+void BenchmarkMode::scenario_one_side(Deque<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale)
 {
-    DequeT<T>* test_deque = deque_generator(test_scale / 2);
+    Deque<T>* test_deque = deque_generator(test_scale / 2);
     for(int i = 0; i < test_scale / 2; i++)
     {
         test_deque->append_right(element_generator());
@@ -149,15 +149,16 @@ void BenchmarkMode::scenario_one_side(DequeT<T>*(*deque_generator)(int), T(*elem
     {
         test_deque->pop_right();
     }
+//    std::cout << test_deque->get_count() << " elements. ";
     std::cout << "Filled and popped " << test_scale / 2 << " entries (" << (test_scale / 2) * 2 << " operations).";
     delete test_deque;
 //    std::cout << DoubleNode<T>::total<< ' ';
 }
 
-template<typename T, template<typename> typename DequeT>
-void BenchmarkMode::scenario_two_side(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale)
+template<typename T>
+void BenchmarkMode::scenario_two_side(Deque<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale)
 {
-    DequeT<T>* test_deque = deque_generator(test_scale / 2);
+    Deque<T>* test_deque = deque_generator(test_scale / 2);
     for(int i = 0; i < test_scale / 2; i++)
     {
         if(i % 2)
@@ -172,22 +173,24 @@ void BenchmarkMode::scenario_two_side(DequeT<T>*(*deque_generator)(int), T(*elem
         else
             test_deque->pop_left();
     }
+//    std::cout << test_deque->get_count() << " elements. ";
     delete test_deque;
     std::cout << "Filled and popped " << test_scale / 2 << " entries (" << (test_scale / 2) * 2 << " operations).";
 }
 
-template<typename T, template<typename> typename DequeT>
-void BenchmarkMode::scenario_random_operation(DequeT<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale)
+template<typename T>
+void BenchmarkMode::scenario_random_operation(Deque<T>*(*deque_generator)(int), T(*element_generator)(), int test_scale)
 {
-    DequeT<T>* test_queue = deque_generator(test_scale / 2);
+    //int appends = 0;
+    Deque<T>* test_deque = deque_generator(test_scale / 2);
     for(int i = 0; i < test_scale; i++)
     {
         int opertaion_type;
-        if(test_queue->get_count() == test_scale)
+        if(test_deque->get_count() == test_scale)
         {
             opertaion_type = std::rand() % 2; //only first two operations available, don't append.
         }
-        else if(test_queue->is_empty())
+        else if(test_deque->is_empty())
         {
             opertaion_type = std::rand() % 2 + 2;
         }
@@ -199,19 +202,24 @@ void BenchmarkMode::scenario_random_operation(DequeT<T>*(*deque_generator)(int),
         switch(opertaion_type)
         {
             case 0:
-                test_queue->pop_left();
+                test_deque->pop_left();
                 break;
             case 1:
-                test_queue->pop_right();
+                test_deque->pop_right();
+                break;
+            case 2:
+                test_deque->append_left(element_generator());
+                //appends++;
                 break;
             case 3:
-                test_queue->append_left(element_generator());
-                break;
-            case 4:
-                test_queue->append_right(element_generator());
+                test_deque->append_right(element_generator());
+                //appends++;
                 break;
         }
     }
+//    test_deque->print();
+//    std::cout << test_deque->get_count() << " elements. ";
     std::cout << "Performed " << test_scale << " operations. (space constraint: " << test_scale / 2 << " entries).";
-    delete test_queue;
+    //std::cout << appends << std::endl;
+    delete test_deque;
 }
