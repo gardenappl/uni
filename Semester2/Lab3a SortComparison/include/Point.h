@@ -15,7 +15,7 @@ namespace sort
         float z;
         Point(float x, float y, float z);
         Point();
-        static Point get_random();
+        static Point make_random();
 
 
 

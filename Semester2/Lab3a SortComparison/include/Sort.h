@@ -144,11 +144,9 @@ namespace sort
         template<typename T>
         void do_merge_sort(T* array, int count, int start_sub_count, bool print_steps = false)
         {
-            T* input_array = array;
-            //because T might not have a default constructor, like in my case
-            //also, we're not constructing anything here, we only need to copy
-            T* output_array = (T*)std::malloc(sizeof(T) * count);
-            if(output_array == nullptr)
+            T* original_array_ptr = array;
+            T* output_array = new T[count];
+            if(!output_array)
                 throw std::bad_alloc();
 
             for(int sub_count = start_sub_count; sub_count < count; sub_count *= 2)
@@ -160,17 +158,18 @@ namespace sort
                     detail::merge(array, output_array, i, std::min(count, i + sub_count), std::min(count, i + sub_count * 2));
                 }
                 if(print_steps)
-                {
                     sort::print_array(output_array, 0, count);
-                }
                 std::swap(array, output_array);
             }
-            if(input_array != array)
+            if(array == original_array_ptr)
             {
-                std::cout << "copying" << std::endl;
-                std::copy(output_array, output_array + count, array);
+                delete output_array;
             }
-            std::free(output_array);
+            else
+            {
+                std::copy(array, array + count, original_array_ptr);
+                delete array;
+            }
         }
     }
 

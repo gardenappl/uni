@@ -69,7 +69,7 @@ namespace sort
         }
     }
 
-    Point Point::get_random()
+    Point Point::make_random()
     {
         float x = (float)std::rand() / (float)(RAND_MAX / 50);
         float y = (float)std::rand() / (float)(RAND_MAX / 20);

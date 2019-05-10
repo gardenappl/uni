@@ -7,14 +7,29 @@
 #include "Utils.h"
 #include "Point.h"
 #include "Sort.h"
+#include <string>
 
 namespace sort
 {
     template<typename T>
-    using ArrayGenerator = T*(*)(int, T(*)());
+    struct ArrayGenerator
+    {
+        T*(*function)(int, T(*)());
+        std::string name;
+        ArrayGenerator(T*(*function)(int, T(*)()), std::string name)
+        : function(function), name(name)
+        {}
+    };
 
     template<typename T>
-    using SortFunction = void(*)(T*, int, bool);
+    struct SortFunction
+    {
+        void(*function)(T*, int, bool);
+        std::string name;
+        SortFunction(void(*function)(T*, int, bool), std::string name)
+        : function(function), name(name)
+        {}
+    };
 
     class Benchmark
     {
@@ -68,16 +83,11 @@ namespace sort
     T* Benchmark::new_array_almost_sorted(int count, T(*element_generator)())
     {
         T* array = new_array_sorted(count, element_generator);
-        sort::print_array(array, 0, count);
-        for(int i = 0; i < count / 40; i++)
+        for(int i = 0; i < count / 20; i++)
         {
-            int from = std::rand() / (RAND_MAX / count);
+            int from = std::rand() / (RAND_MAX / count + 1);
             int to = std::rand() / (RAND_MAX / count + 1);
-
-            std::cout << from << ' ' << to << std::endl;
-            std::cout << "hi" << std::endl;
             std::swap(array[from], array[to]);
-            sort::print_array(array, 0, count);
         }
         return array;
     }
