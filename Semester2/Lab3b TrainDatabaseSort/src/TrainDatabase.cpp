@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <initializer_list>
 
 #include <boost/optional.hpp>
 #include <boost/lexical_cast.hpp>
@@ -349,7 +350,7 @@ int TicketInfo::compare_train_types(const TicketInfo& ticket1, const TicketInfo&
 {
     boost::optional<Train> train1 = GlobalTrainDatabase::get_train(ticket1.train_id);
     boost::optional<Train> train2 = GlobalTrainDatabase::get_train(ticket2.train_id);
-    if(train1->type < train2->type)
+    if((char)train1->type < (char)train2->type)
         return -1;
     else
         return train1->type != train2->type;
@@ -362,7 +363,7 @@ void StationScheduleDatabase::add_ticket(TicketInfo ticket_info)
     this->tickets[ticket_info.ticket_id] = ticket_info;
 }
 
-boost::optional<TicketInfo> StationScheduleDatabase::get_ticket(int id)
+boost::optional<TicketInfo> StationScheduleDatabase::get_ticket(int id) const
 {
     try
     {
@@ -397,12 +398,12 @@ std::vector<int> StationScheduleDatabase::find_all_tickets(const std::function<b
     return tickets;
 }
 
-const std::map<int32_t, TicketInfo>& StationScheduleDatabase::get_tickets_map()
+const std::map<int32_t, TicketInfo>& StationScheduleDatabase::get_tickets_map() const
 {
     return this->tickets;
 }
 
-TicketInfo* StationScheduleDatabase::get_tickets_array()
+TicketInfo* StationScheduleDatabase::get_tickets_array() const
 {
     TicketInfo* array = new TicketInfo[this->tickets.size()];
 
@@ -415,9 +416,40 @@ TicketInfo* StationScheduleDatabase::get_tickets_array()
     return array;
 }
 
-int StationScheduleDatabase::get_ticket_count()
+int StationScheduleDatabase::get_ticket_count() const
 {
     return this->tickets.size();
+}
+
+TicketInfo* StationScheduleDatabase::get_tickets_sorted(std::vector<sort::ComparatorFunction<TicketInfo>> comparators) const
+{
+    TicketInfo* array = get_tickets_array();
+    int count = tickets.size();
+
+    if(comparators.size() == 1 && comparators[0] == TicketInfo::compare_train_ids)
+    {
+        sort::radix_sort<TicketInfo>(array, count,
+                [](const TicketInfo& ticket_info) { return (int)ticket_info.train_id; },
+                GlobalTrainDatabase::MAX_TRAINS);
+    }
+    else if(comparators.size() == 1 && comparators[0] == TicketInfo::compare_train_types)
+    {
+        sort::counting_sort_numeric<TicketInfo>(array, count,
+                [](const TicketInfo& ticket_info) { return (int)GlobalTrainDatabase::get_train(ticket_info.train_id)->type; }, 4);
+    }
+    else
+    {
+        sort::ComparatorChain<TicketInfo> comparator(comparators);
+        sort::merge_sort_optimized(array, count, 10, comparator);
+//        for(int i = 0; i < count - 1; i++)
+//        {
+//            if(comparator(array[i + 1], array[i]))
+//            {
+//                std::cout << "SORTING FAILED: " << array[i] << " > " << array[i + 1] << std::endl;
+//            }
+//        }
+    }
+    return array;
 }
 
 void StationScheduleDatabase::print() const

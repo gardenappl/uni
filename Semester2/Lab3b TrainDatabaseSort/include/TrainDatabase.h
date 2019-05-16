@@ -10,6 +10,8 @@
 
 #include <boost/optional.hpp>
 
+#include "Sort.h"
+
 enum struct TrainType
 {
     Standard,
@@ -84,7 +86,7 @@ public:
     int station_id;
 
     void add_ticket(TicketInfo ticket_info);
-    boost::optional<TicketInfo> get_ticket(int id);
+    boost::optional<TicketInfo> get_ticket(int id) const;
     bool delete_ticket(int id); //returns true if ticket with such id existed before (and has been removed)
     void clear();
 
@@ -92,9 +94,10 @@ public:
     //Returns IDs as it's more efficient than copying Train objects
     std::vector<int32_t> find_all_tickets(const std::function<bool(const TicketInfo&)>& predicate) const;
     //Returns const reference (might get invalidated if the original tickets map is modified!)
-    const std::map<int32_t, TicketInfo>& get_tickets_map();
-    TicketInfo* get_tickets_array();
-    int get_ticket_count();
+    const std::map<int32_t, TicketInfo>& get_tickets_map() const;
+    TicketInfo* get_tickets_array() const;
+    int get_ticket_count() const;
+    TicketInfo* get_tickets_sorted(std::vector<sort::ComparatorFunction<TicketInfo>> comparators) const;
 
     void print() const;
 

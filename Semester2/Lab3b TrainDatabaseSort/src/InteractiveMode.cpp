@@ -8,13 +8,14 @@
 #include "Sort.h"
 #include "Utils.h"
 #include "TrainDatabase.h"
+#include "BenchmarkMode.h"
 
 
 
 void InteractiveMode::run()
 {
     std::cout << "Welcome to the Train Database" << std::endl;
-    std::cout << "Available commands: quit, add, search, delete, print, sort, save-bin, load-bin, save-txt, load-txt" << std::endl;
+    std::cout << "Available commands: quit, benchmark, add, search, delete, print, sort, save-bin, load-bin, save-txt, load-txt" << std::endl;
 
     StationScheduleDatabase* db = new StationScheduleDatabase;
 
@@ -26,6 +27,10 @@ void InteractiveMode::run()
         if(command == "quit")
         {
             exit(0);
+        }
+        else if(command == "benchmark")
+        {
+            BenchmarkMode::run();
         }
         else if(command == "add")
         {
@@ -110,21 +115,7 @@ void InteractiveMode::run()
         }
         else if(command == "sort")
         {
-            TicketInfo* array = db->get_tickets_array();
-            int count = db->get_ticket_count();
-            print_array(array, count);
-
-            sort::ComparatorChain<TicketInfo> comparator({TicketInfo::compare_train_types, TicketInfo::compare_popularity});
-            sort::merge_sort_optimized(array, count, 10, comparator);
-            print_array(array, count);
-            for(int i = 0; i < count - 1; i++)
-            {
-                if(comparator(array[i + 1], array[i]))
-                {
-                    std::cout << "SORTING FAILED: " << array[i] << " > " << array[i + 1] << std::endl;
-                }
-            }
-            delete array;
+            InteractiveMode::sort_tickets(db);
         }
         else if(command == "save-bin")
         {
@@ -136,7 +127,7 @@ void InteractiveMode::run()
         else if(command == "save-txt")
         {
             std::ofstream file("database.txt");
-            db->save_bin(file);
+            db->save_txt(file);
             file.close();
             std::cout << "Saved to database.txt successfully." << std::endl;
         }
@@ -165,7 +156,7 @@ void InteractiveMode::run()
     }
 }
 
-void InteractiveMode::search_tickets(StationScheduleDatabase* db)
+void InteractiveMode::search_tickets(const StationScheduleDatabase* db)
 {
     std::cout << "Select search criteria: (1 = name contains substring, 2 = above certain popularity ratio, 3 = arrival time earlier than X)";
 
@@ -209,6 +200,32 @@ void InteractiveMode::search_tickets(StationScheduleDatabase* db)
     {
         std::cout << *db->get_ticket(ticket_id) << std::endl;
     }
+}
+
+void InteractiveMode::sort_tickets(const StationScheduleDatabase* db)
+{
+    std::vector<sort::ComparatorFunction<TicketInfo>> criteria;
+    std::cout << "Add sort criteria: (1 = popularity, 2 = train ID, 3 = ticket ID, 4 = train type, 0 = stop)\n";
+    while(true)
+    {
+        int input;
+        std::cin >> input;
+        const sort::ComparatorFunction<TicketInfo> functions[4] =
+        {
+            TicketInfo::compare_popularity,
+            TicketInfo::compare_train_ids,
+            TicketInfo::compare_ticket_ids,
+            TicketInfo::compare_train_types
+        };
+        if(input == 0)
+            break;
+        else
+            criteria.push_back(functions[input - 1]);
+    }
+
+    TicketInfo* sorted_array = db->get_tickets_sorted(criteria);
+    print_array(sorted_array, db->get_ticket_count());
+    delete sorted_array;
 }
 
 void InteractiveMode::add_train(int id)
