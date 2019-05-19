@@ -19,6 +19,7 @@ namespace test
         for(int i = 1; i < count; i++)
         {
             std::cout << ", " << array[i];
+            std::cout.flush();
         }
     }
 }
