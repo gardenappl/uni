@@ -41,7 +41,6 @@
 		<Unit filename="include/misc.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/GameStruct.cpp" />
-		<Unit filename="src/Graph.cpp" />
 		<Unit filename="src/misc.cpp" />
 		<Extensions>
 			<code_completion />

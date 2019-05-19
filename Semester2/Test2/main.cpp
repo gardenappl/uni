@@ -215,29 +215,33 @@ namespace test
                 << ", end point: " << graph->index_to_value[current_min_element] << ")" << std::endl;
     }
 
-    bool pair_compare_func(const std::pair<const VideoGame&, const VideoGame&>& game_pair1, const std::pair<const VideoGame&, const VideoGame&>& game_pair2)
+    double get_pair_value(const std::pair<const VideoGame*, const VideoGame*>& game_pair)
     {
-        return VideoGame::get_distance(game_pair1.first, game_pair1.second) <
-                VideoGame::get_distance(game_pair2.first, game_pair2.second);
+        return VideoGame::get_distance(*game_pair.first, *game_pair.second);
     }
 
     void task4()
     {
-        BinaryPairSearchTree<VideoGame, pair_compare_func> tree;
+        const int ELEMENT_COUNT = 10;
+        BinaryPairSearchTree<VideoGame, get_pair_value> tree(ELEMENT_COUNT);
 
-        auto print_func = [](const std::pair<const VideoGame&, const VideoGame&>& pair)
+        auto print_func = [](const std::pair<const VideoGame*, const VideoGame*>& pair)
                 {
-                    std::cout << "{ " << pair.first << ", " << pair.second << ", distance = "
-                            << VideoGame::get_distance(pair.first, pair.second) << " }\n";
+                    std::cout << "{ " << *pair.first << ", " << *pair.second << ", distance = "
+                            << VideoGame::get_distance(*pair.first, *pair.second) << " }\n";
                 };
 
-        for(int i = 0; i < 8; i++)
-        {
+        for(int i = 0; i < ELEMENT_COUNT; i++)
             tree.insert(VideoGame::make_random());
-            tree.print(print_func);
-            std::cout << std::endl;
-        }
-        tree.print(print_func);
+
+
+        tree.print(false, print_func);
+        tree.print(true, print_func);
+
+        std::cout << "Pairs with distance 0.8, precision 0.05:" << std::endl;
+        auto found = tree.find_all(0.8, 0.05);
+        for(const auto& pair : found)
+            print_func(pair);
     }
 
 }
