@@ -43,7 +43,6 @@ namespace trees
     template<typename T>
     struct BinaryTree
     {
-
         ~BinaryTree();
         static BinaryTree* from_normal_tree(const Tree<T>* value);
         BinaryTreeLinear<T>* to_linear() const;

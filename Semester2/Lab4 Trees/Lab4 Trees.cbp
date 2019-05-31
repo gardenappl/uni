@@ -36,11 +36,14 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/BinaryTree.h" />
+		<Unit filename="include/FileSystem.h" />
 		<Unit filename="include/InteractiveMode.h" />
 		<Unit filename="include/Tree.h" />
 		<Unit filename="include/misc.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/FileSystem.cpp" />
 		<Unit filename="src/InteractiveMode.cpp" />
+		<Unit filename="src/misc.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

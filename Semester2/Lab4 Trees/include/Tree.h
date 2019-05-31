@@ -42,7 +42,7 @@ namespace trees
         template<typename Iterator>
         T& get(const Iterator& begin, const Iterator& end) const;
         template<typename Iterator>
-        void add(const Iterator& begin, const Iterator& end, const T& value);
+        Node* add(const Iterator& begin, const Iterator& end, const T& value);
         template<typename Iterator>
         void set(const Iterator& begin, const Iterator& end, const T& value);
         template<typename Iterator>
@@ -53,8 +53,6 @@ namespace trees
 
         void print(std::ostream& os) const;
 
-
-    private:
         template<typename Iterator>
         Node* get_node(Iterator begin, const Iterator& end) const;
     };
@@ -90,9 +88,9 @@ namespace trees
 
     template<typename T>
     template<typename Iterator>
-    void Tree<T>::add(const Iterator& begin, const Iterator& end, const T& value)
+    typename Tree<T>::Node* Tree<T>::add(const Iterator& begin, const Iterator& end, const T& value)
     {
-        get_node(begin, end)->add(value);
+        return get_node(begin, end)->add(value);
     }
 
     template<typename T>

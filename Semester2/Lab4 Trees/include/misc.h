@@ -15,6 +15,10 @@ namespace trees
             os << ", " << *(begin++);
         os << " }" << std::endl;
     }
+
+    std::string make_random_alphanumeric_string(int length);
+    bool make_random();
+    std::string time_to_string(const time_t& time);
 }
 
 #endif // MISC_H
