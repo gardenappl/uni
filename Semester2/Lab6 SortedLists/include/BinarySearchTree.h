@@ -21,7 +21,7 @@ namespace lists
         void add(const T& element) override;
         void print_all(std::ostream& os) const override;
         bool remove(const T& element) override;
-        std::vector<T> find_all(const T& element) const override;
+        bool contains(const T& element) const override;
         std::vector<T> find_all(const T& min, const T& max) const override;
         void for_each(std::function<void(const T&)> func) const override;
 
@@ -124,7 +124,7 @@ namespace lists
     {
         for(int i = 0; i < levels; i++)
             os << " - ";
-        os << value << '\n';
+        os << value << std::endl;
         if(left)
         {
             for(int i = 0; i < levels; i++)
@@ -163,16 +163,18 @@ namespace lists
         while(current_node)
         {
             int compare_result = CompareFunc(element, (*current_node)->value);
-            if(compare_result < 0)
+            if(compare_result < 0 && (*current_node)->left)
                 current_node = &(*current_node)->left;
-            else if(compare_result > 0)
+            else if(compare_result > 0 && (*current_node)->right)
                 current_node = &(*current_node)->right;
+            else if(compare_result == 0)
+            {
+                remove(current_node);
+                return true;
+            }
             else
             {
-//                std::cout << "Found node " << (*current_node)->value << "\n";
-                remove(current_node);
-//                print_as_tree(std::cout);
-                return true;
+                return false;
             }
         }
         return false;
@@ -236,25 +238,30 @@ namespace lists
     }
 
     template<typename T, CompareFuncType<T> CompareFunc>
-    std::vector<T> BinarySearchTree<T, CompareFunc>::find_all(const T& element) const
+    bool BinarySearchTree<T, CompareFunc>::contains(const T& element) const
     {
+//        int searches = 0;
         std::vector<T> result;
         std::queue<Node*> bfs_queue;
         if(root)
             bfs_queue.push(root);
         while(!bfs_queue.empty())
         {
+//            searches++;
             Node* current_node = bfs_queue.front();
             bfs_queue.pop();
             int compare_result = CompareFunc(current_node->value, element);
             if(compare_result == 0)
-                result.push_back(current_node->value);
+            {
+//                std::cout << "(searches: " << searches << ")\n";
+                return true;
+            }
             if(compare_result > 0 && current_node->left)
                 bfs_queue.push(current_node->left);
-            else if(compare_result <= 0 && current_node->right)
+            else if(compare_result < 0 && current_node->right)
                 bfs_queue.push(current_node->right);
         }
-        return result;
+        return false;
     }
 
     template<typename T, CompareFuncType<T> CompareFunc>
@@ -268,7 +275,7 @@ namespace lists
         {
             Node* current_node = bfs_queue.front();
             bfs_queue.pop();
-            if(CompareFunc(current_node->value, min) > 0 && current_node->left)
+            if(CompareFunc(current_node->value, min) >= 0 && current_node->left)
                 bfs_queue.push(current_node->left);
             if(CompareFunc(current_node->value, max) <= 0)
             {

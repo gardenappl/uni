@@ -19,14 +19,14 @@ namespace lists
         void add(const T& element) override;
         void print_all(std::ostream& os) const override;
         bool remove(const T& element) override;
-        std::vector<T> find_all(const T& element) const override;
+        bool contains(const T& element) const override;
         std::vector<T> find_all(const T& min, const T& max) const override;
         void for_each(std::function<void(const T&)> func) const override;
 
     private:
         struct Node
         {
-            Node* next;
+            Node* next = nullptr;
             T value;
 
             Node(const T& value, Node* next = nullptr)
@@ -95,9 +95,13 @@ namespace lists
         int compare_result = CompareFunc(root->value, element);
         if(compare_result == 0)
         {
-            Node* temp_node = root->next;
-            delete root;
-            root = temp_node;
+            #if DEBUG
+            std::cout << "now empty" << std::endl;
+            #endif // DEBUG
+
+            Node* temp_node = root;
+            root = root->next;
+            delete temp_node;
             return true;
         }
         else if(compare_result > 0)
@@ -137,7 +141,7 @@ namespace lists
     }
 
     template<typename T, CompareFuncType<T> CompareFunc>
-    std::vector<T> SortedLinkedList<T, CompareFunc>::find_all(const T& element) const
+    bool SortedLinkedList<T, CompareFunc>::contains(const T& element) const
     {
         std::vector<T> result;
         Node* current_node = root;
@@ -145,13 +149,13 @@ namespace lists
         {
             int compare_result = CompareFunc(current_node->value, element);
             if(compare_result > 0)
-                return result;
+                return false;
             else if(compare_result == 0)
-                result.push_back(current_node->value);
+                return true;
 
             current_node = current_node->next;
         }
-        return result;
+        return false;
     }
 
     template<typename T, CompareFuncType<T> CompareFunc>

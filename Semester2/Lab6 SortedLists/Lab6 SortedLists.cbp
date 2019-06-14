@@ -34,6 +34,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/AVLTree.h" />
+		<Unit filename="include/BinarySearchTree.h" />
+		<Unit filename="include/SortedArrayList.h" />
 		<Unit filename="include/SortedLinkedList.h" />
 		<Unit filename="include/SortedList.h" />
 		<Unit filename="include/misc.h" />
