@@ -35,12 +35,14 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/AVLTree.h" />
+		<Unit filename="include/BenchmarkMode.h" />
 		<Unit filename="include/BinarySearchTree.h" />
 		<Unit filename="include/SortedArrayList.h" />
 		<Unit filename="include/SortedLinkedList.h" />
 		<Unit filename="include/SortedList.h" />
 		<Unit filename="include/misc.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/BenchmarkMode.cpp" />
 		<Unit filename="src/misc.cpp" />
 		<Extensions>
 			<code_completion />
