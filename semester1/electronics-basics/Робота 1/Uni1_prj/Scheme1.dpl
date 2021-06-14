@@ -1,0 +1,31 @@
+<Qucs Schematic 0.0.19>
+<Properties>
+  <View=0,0,850,800,1,0,0>
+  <Grid=10,10,0>
+  <DataSet=Scheme1.dat>
+  <DataDisplay=Scheme1.sch>
+  <OpenDisplay=1>
+  <Script=Scheme1.m>
+  <RunScript=0>
+  <showFrame=0>
+  <FrameText0=Назва>
+  <FrameText1=Намалював:>
+  <FrameText2=Дата:>
+  <FrameText3=Версія:>
+</Properties>
+<Symbol>
+</Symbol>
+<Components>
+</Components>
+<Wires>
+</Wires>
+<Diagrams>
+  <Rect 230 470 240 160 3 #c0c0c0 1 00 1 0 0.2 1 1 -0.1 0.5 1.1 1 -0.1 0.5 1.1 315 0 225 "" "" "">
+	<"Pr1.I" #0000ff 0 3 0 0 0>
+  </Rect>
+  <Tab 506 480 304 382 3 #c0c0c0 1 00 1 3 1 1 1 0 1 1 1 0 1 21 315 0 225 "" "" "">
+	<"Pr1.I" #0000ff 0 3 1 0 0>
+  </Tab>
+</Diagrams>
+<Paintings>
+</Paintings>
