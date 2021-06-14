@@ -1,0 +1,70 @@
+
+/* Example 0 */
+
+/* Для великих екранів додаємо padding. */
+:root { padding: 0px 40px; }
+
+@media (min-width: 600px) {
+	:root { padding: 0px 100px; }
+}
+
+
+
+/* Example 1 */
+
+/* 1. All text is red, except the <li> with the class .first-item */
+.ex1 li:not(.first-item) {
+    color: red;
+}
+
+/* 2. All elements will have black text and a yellow background, except the <li> with the class .first-item and the last <li> of the list */
+.ex2 li:not(.first-item):not(:last-of-type) {
+    background: orange;
+    color: black;
+}
+
+
+
+/* Example 2 */
+
+/* 1. Select the second child. Only Beta will be red */
+.ex21 :nth-child(2) { color: #2963BD; }
+
+/* 2. Select every other child starting with the second. Beta, Delta, Zeta, Theta and Kappa will be red */
+.ex22 :nth-child(2n) { color: #429032; }
+/* Which is the same as selecting all EVEN child elements */
+.ex22 :nth-child(even) { color: #429032; }
+
+/* 3. Select every other child starting with the first. Alpha, Gamma, Epsilon, Eta and Iota will be red */
+.ex23 :nth-child(2n+1) { color: #c03; }
+/* Which is the same as selecting all ODD child elements */
+.ex23 :nth-child(odd) { color: #c03; }
+
+/* 4. Select every other child starting from the sixth. Zeta, Theta and Kappa will be red: */
+.ex24 :nth-child(2n+6) { color: #c90; }
+
+
+
+/* Example 3 */
+
+:checked + label {
+    background: #429032;
+    transition: .3s;
+}
+
+
+
+/* Example 4 */
+
+.selection p::selection {
+	color: orange;
+	background: #333;
+}
+.before-after p::before {
+	content: "Hello, ";
+}
+.before-after p::after {
+	content: ", the web designer";
+}
+
+

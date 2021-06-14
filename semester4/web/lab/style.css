@@ -1,0 +1,460 @@
+
+@font-face {
+	font-family: 'Open Sans Condensed Bold';
+	src: local("Open Sans Condensed"),
+	     url(OpenSansCondensed-Bold.ttf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Open Sans Condensed Light';
+	src: local("Open Sans Condensed"),
+	     url(OpenSansCondensed-Light.ttf);
+	font-weight: normal;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	font: 14px 'PT Sans', sans-serif;
+	line-height: 22px;
+	color: #333;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+b {
+	font-weight: bold;
+}
+
+#non-footer-wrapper {
+	flex: 1 0 auto;
+}
+
+#footer-bg {
+	flex-shrink: 0;
+}
+
+#header-bg {
+	background-color: #fff;
+	height: 230px;
+}
+
+.container {
+	width: 100%;
+	min-width: 1000px;
+}
+
+.content {
+	position: relative;
+	height: 100%;
+	width: 980px;
+	margin: auto;
+	box-sizing: border-box;
+}
+
+#header {
+	position: relative;
+	margin: auto;
+}
+
+#logo {
+	width: 120px;
+	height: 90px;
+	position: absolute;
+	top: 65px;
+	left: 0px;
+}
+
+#company-name {
+	position: absolute;
+	top: 65px;
+	left: 110px;
+	padding: 8px 10px;
+	font-weight: bold;
+	font: 20pt 'Open Sans Condensed Bold';
+}
+
+#company-slogan {
+	position: absolute;
+	top: 100px;
+	left: 110px;
+	padding: 8px 10px;
+	font: 14pt 'Open Sans Condensed Light';
+}
+
+#phone-numbers {
+	position: absolute;
+	top: 45px;
+	right: 0px;
+	text-align: right;
+	font: 40px 'Open Sans Condensed Light';
+	line-height: 46px;
+}
+
+#contact {
+	position: absolute;
+	font-size: 24px;
+	font-weight: bold;
+	top: 140px;
+	right: 0px;
+}
+
+#contact > a {
+	text-decoration: underline dashed;
+	color: #333;
+}
+
+#contact > a:hover {
+	text-decoration: underline solid;
+}
+
+#menu-bg {
+	background-color: #5c5cfa;
+	height: 80px;
+}
+
+#menu {
+	color: #fff;
+	font-size: 30px;
+	text-align: center;
+}
+
+#menu ul {
+	white-space: nowrap;
+	display: inline-block;
+	margin: auto;
+	list-style-type: none;
+}
+
+#menu li {
+	width: min-content;
+	display: inline-block;
+	height: 80px;
+	line-height: 80px;
+	vertical-align: bottom;
+}
+
+#menu li:not(:first-of-type)::before {
+	content: " |  ";
+}
+
+#menu a {
+	color: #fff;
+	text-decoration: none;
+}
+	
+#menu a:hover {
+	text-decoration: underline;
+}
+
+#slider {
+	background-color: #999;
+	height: 400px;
+	overflow: hidden;
+	position: relative;
+}
+
+#slider > img {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	max-width: 100%;
+	margin: auto;
+	display: block;
+}
+
+#slider > img.active {
+	opacity: 1;
+	transition: all 1s;
+}
+
+#slider > img.hidden {
+	opacity: 0;
+	transition: all 1s;
+}
+
+#prev,#next {
+	background-color: #fff;
+	width: 35px;
+	height: 60px;
+	position: absolute;
+	top: 155px;
+}
+
+#prev > img, #next > img {
+	width: 30px;
+	height: 30px;
+	margin: 15px 2px;
+}
+
+#prev:hover,#next:hover {
+	background-color: #ddd;
+}
+
+#prev:active,#next:active {
+	background-color: #bbb;
+}
+
+#next {
+	right: 0px;
+}
+
+#breadcrumbs-bg {
+	background: #5c5cfa;
+}
+
+#breadcrumbs {
+	color: #fff;
+	height: 30px;
+}
+
+#breadcrumbs > ol {
+	white-space: nowrap;
+	list-style-type: none;
+}
+
+#breadcrumbs li {
+	width: min-content;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+}
+
+#breadcrumbs li:not(:first-of-type)::before {
+	content: " /  ";
+}
+
+#breadcrumbs a {
+	color: #fff;
+}
+
+#footer-bg {
+	color: #fff;
+	background-color: #5c5cfa;
+}
+
+#footer {
+	height: 220px;
+}
+
+#copyright-contact {
+	position: absolute;
+	top: 45px;
+}
+
+#footer-menu {
+	line-height: 26px;
+	position: absolute;
+	top: 45px;
+	left: 350px;
+}
+
+#footer-menu a {
+	color: #fff;
+}
+
+#site-creator {
+	position: absolute;
+	right: 0;
+	top: 45px;
+	width: 220px;
+}
+
+#site-creator-logo {
+	position: absolute;
+	right: 220px;
+	top: 45px;
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+}
+
+#items-grid {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-gap: 18px 18px;
+	padding-bottom: 20px;
+}
+
+.car-card {
+	position: relative;
+	box-sizing: border-box;
+	width: 250px;
+	height: 380px;
+	padding: 18px;
+	background-color: #ddd;
+}
+
+.car-card:hover {
+	background-color: #bbb;
+}
+
+.car-photo {
+	width: 210px;
+	height: 210px;
+	object-fit: cover;
+}
+
+.car-name {
+	font-weight: bold;
+	color: #000;
+	font-size: 18px;
+	line-height: 18px;
+}
+
+.car-desc {
+	font-size: 18px;
+	line-height: 18px;
+}
+
+.car-price {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	padding: 18px;
+	font-size: 28px;
+	font-weight: bold;
+	color: #000;
+}
+
+/* .add-to-cart {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	padding: 18px;
+} */
+
+#page-list {
+	text-align: center;
+}
+
+#page-list ul {
+	white-space: nowrap;
+	display: inline-block;
+	margin: auto;
+	list-style-type: none;
+}
+
+#page-list li {
+	width: min-content;
+	display: inline-block;
+	margin: 8px;
+}
+
+#page-list .active {
+	font-size: 18px;
+	color: #000;
+}
+
+#about-creators {
+	margin-top: 60px;
+	padding-top: 25px;
+	border-top: 1px solid #333;
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-column-gap: 40px;
+}
+
+#feedback-overlay {
+	background-color: #0008;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	position: fixed;
+}
+
+#feedback {
+	background-color: #fff;
+	width: 470px;
+	height: 580px;
+	position: absolute;
+	top: 280px;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: auto;
+	z-index: 2;
+	text-align: center;
+}
+
+#feedback-whitespace {
+	height: 600px;
+}
+
+#feedback h1 {
+	margin: 30px;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+#feedback input, #feedback textarea {
+	box-sizing: border-box;
+	padding: 15px;
+	margin-top: 5px;
+	margin-bottom: 12px;
+	height: 40px;
+	width: 340px;
+	border: 1px #555 solid;
+	background-color: #fff;
+}
+
+#feedback input:invalid {
+	box-shadow: #f008 0 0 10px inset;
+}
+
+#feedback input::placeholder {
+	font-family: "PT Sans";
+	font-style: italic;
+	color: #c00;
+}
+
+#feedback textarea {
+	resize: none;
+	height: 130px;
+}
+
+.feedback {
+	display: none;
+}
+
+#feedback-close {
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	z-index: 2;
+	top: -25px;
+	left: 100%;
+	background-color: #fff;
+}
+
+#feedback-close:hover {
+	background-color: #eee;
+}
+
+#feedback-close:active {
+	background-color: #ccc;
+}
+
+#feedback button {
+	width: 130px;
+	height: 40px;
+	background-color: #5c5cfa;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+	border-style: none;
+}
+
+#feedback button:hover {
+	background-color: #4c4cea;
+}
+
+#feedback button:active {
+	background-color: #3c3cda;
+}

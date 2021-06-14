@@ -1,0 +1,78 @@
+body {
+	margin: 10px 20px;
+}
+
+table.input-form {
+	border: solid 1px black;
+	border-collapse: separate;
+	width: 100%;
+	max-width: 1000px;
+	margin: auto;
+	box-sizing: border-box;
+}
+
+.input-form td {
+	margin: 2px;
+	border: solid 1px black;
+}
+
+
+td.title {
+	text-align: center;
+}
+
+td.opposite-align {
+	text-align: end;
+}
+
+.form-result {
+	width: 100%;
+}
+
+#form-result .invalid-warning {
+	font-weight: bold;
+	padding: 5px;
+	width: 100%;
+	max-width: 1000px;
+	margin: auto;
+}
+
+#form-result table {
+	width: 100%;
+	max-width: 1000px;
+	margin: auto;
+	margin-top: 5px;
+	border-collapse: collapse;
+}
+
+.result .book-name {
+	min-width: 50%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.result .book-amount {
+	text-align: left;
+	width: 100%;
+}
+
+.result .total {
+	font-weight: bold;
+}
+
+.result tr:nth-child(2n) {
+	background-color: #eee;
+}
+
+.result tr:last-child {
+	font-weight: bold;
+}
+
+.result td:not(.delivery-method) {
+	white-space: nowrap;
+}
+
+.result td {
+	margin: 0;
+	padding: 5px 5px;
+}

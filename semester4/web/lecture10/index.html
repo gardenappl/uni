@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+	<meta charset="UTF-8">
+	<title>Лекція 10. JavaScript</title>
+	<script src="script.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<b>Является ли строка палиндромом?</b>
+	<table>
+		<tr>
+			<td><label for="palindrome-input">Введите строку:</label></td>
+			<td><input id="palindrome-input"></td>
+		</tr>
+		<tr>
+			<td><label for="palindrome-result">Результат:</label></td>
+			<td><input id="palindrome-result" disabled></td>
+		</tr>
+	</table>
+	<input type="button" value="Определить" onclick="palindromeCheck()">
+	<input type="button" value="Отменить" onclick="palindromeClear()">
+
+	<br>
+	<b>Количество заданных слов в тексте</b>
+	<br>
+	<table>
+		<tr><td>
+			<label for="search-input">Введите текст:</label><br/>
+			<textarea id="search-input"></textarea>
+		</td></tr>
+		<tr><td>
+			<label for="search-query">Введите слово:</label>
+			<input id="search-query">
+		</td></tr>
+		<tr><td>
+			<button type="button" onclick="wordSearch();">Определить</button>
+		</td></tr>
+		<tr><td>
+			<label for="search-count">Количество слов в тексте:</label>
+			<input disabled id="search-count">
+		</td></tr>
+	</table>
+			<button type="button" onclick="wordClear();">Отменить</button>	
+
+	<span class="exam">
+		<h4>Формирование сводки по экзамену</h4>
+		<div class="exam-input">
+			<label for="exam-input">Введите последовательно все оценки, полученные на экзамене</label>
+			<input id="exam-input">
+		</div>
+		<div class="exam-calculate">
+			<label for="exam-calculate">После ввода всех оценок нажмите на кнопку</label><br>
+			<button onclick="examCalculate();" id="exam-calculate" type="button">Сводка</button>
+		</div>
+		<hr>
+		<table>
+			<caption>Сводка по экзамену</caption>
+			<tr>
+				<th>оценка</th>	
+				<th>число здавших на оценку</th>
+			</tr>
+			<tr>
+				<td><label for="grade5">отлично</label></td>
+				<td><input disabled id="grade5"></td>
+			</tr>
+			<tr>
+				<td><label for="grade4">хорошо</label></td>
+				<td><input disabled id="grade4"></td>
+			</tr>
+			<tr>
+				<td><label for="grade3">удовлитворительно</label></td>
+				<td><input disabled id="grade3"></td>
+			</tr>
+			<tr>
+				<td><label for="grade2">неудовлитворительно</label></td>
+				<td><input disabled id="grade2"></td>
+			</tr>
+			<tr>
+				<th colspan=2>Дополнительные сведения</th>
+			</tr>
+			<tr>
+				<td><label for="exam-count">количество здавших</label></td>
+				<td><input disabled id="exam-count"></td>
+			</tr>
+			<tr>
+				<td><label for="exam-average">средний балл</label></td>
+				<td><input disabled id="exam-average"></td>
+			</tr>
+		</table>
+		<div>
+			<button type="button" onclick="examClear();">Отменить</button>
+		</div>
+	</span>
+</body>
+</html>

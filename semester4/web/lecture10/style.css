@@ -1,0 +1,36 @@
+td {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: solid 1px black;
+}
+
+table {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-collapse: collapse;
+}
+
+.exam th {
+	background-color: #ccc;
+}
+
+.exam th, .exam td {
+	border: ridge 2px;
+}
+
+.exam {
+	text-align: center;
+}
+
+hr {
+	width: 50%;
+}
+
+.exam table, .exam * { 
+	text-align: center;
+	margin: auto;
+}
+
+.exam td {
+	text-align: start;
+}

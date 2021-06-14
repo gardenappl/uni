@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head lang="uk">
+	<meta charset="UTF-8">
+	<title>Форматування тексту, таблиць, списків</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+	<div class="task1">
+		<h2 class="a">Заголовок {position: static;}</h2>
+		<p>Заголовок с <span class="mono">position static</span> сохраняет свое место в потоке документа</p>
+	</div>
+	<div class="task1">
+		<h2 class="b">Заголовок {position: relative; top: 10px}</h2>
+		<p>Заголовок с <span class="mono">position relative</span> смещается относительно своего текущего положения в макете</p>
+	</div>
+	<div class="task1">
+		<h2 class="c">Заголовок {position: absolute; top: 10px;}</h2>
+		<p>Заголовок с <span class="mono">position absolute</span> смещается относительно верхнего левого угла браузера. При этом его ширина становится равной ширине содержимого.</p>
+	</div>
+
+
+
+	<div style="height:150px; border: 1px dashed #8bc63e;">Блок 1 (в нормальном потоке)</div>
+	<div style="height:200px; border: 3px dashed #e03c32; float:left;">Блок 2 (обтекание по левому краю)</div>
+	<div style="height:150px; border: 1px solid #888888;">Блок 3 (в нормальном потоке)</div>
+</body>

@@ -1,0 +1,56 @@
+
+#catalog {
+	padding-bottom: 10px;
+	margin-bottom: 180px;
+}
+
+#catalog > div {
+	padding: 20px 0px;
+}
+
+#catalog a {
+	color: #333;
+	text-decoration: none;
+}
+
+#catalog a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+#test-drive {
+	margin-top: 60px;
+	padding-top: 25px;
+	border-top: 1px solid #333;
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-column-gap: 40px;
+}
+
+#about-creators {
+	margin-top: 60px;
+	padding-top: 25px;
+	border-top: 1px solid #333;
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-column-gap: 40px;
+}
+
+#order-test-drive {
+	display: block;
+	margin: 10px auto;
+	padding: 10px;
+	background-color: #5c5cfa;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+	border-style: none;
+}
+
+#order-test-drive:hover {
+	background-color: #4c4cea;
+}
+
+#order-test-drive:active {
+	background-color: #3c3cda;
+}

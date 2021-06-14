@@ -1,0 +1,28 @@
+form {
+	margin: 10px auto;
+	width: 80%;
+	text-align: center;
+}
+
+ul {
+	padding: 0px;
+	margin: auto;
+	width: 80%;
+	max-width: 500px;
+	list-style: '\1D160'
+}
+
+li {
+	padding: 5pt;
+	margin: 0px;
+	background-color: #fff;
+	border-bottom: 1px solid #999;
+}
+
+li:hover {
+	background-color: #fee;
+}
+
+body {
+	background-color: #eee;
+}

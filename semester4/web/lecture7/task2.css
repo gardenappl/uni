@@ -1,0 +1,91 @@
+div {
+	margin: 50px;
+}
+.fig1 {
+	width: 40px;
+	height: 30px;
+	background: #fb0200;
+}
+.fig1::after {
+	position: absolute;
+	content: "";
+	width: 0px;
+	height: 0px;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid #e7989b;
+}
+
+
+.fig2 {
+	width: 125px;
+	height: 65px;
+	background: #a2f3ec;
+	border-radius: 5px;
+	box-shadow: 2px 2px 5px gray;
+}
+.fig2::before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	top: -15px;	
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 15px solid #a2f3ec;
+}
+
+
+.fig3 {
+	width: 100px;
+	height: 0px;
+	border-left: 15px solid transparent;
+	border-top: 15px solid #fe0190;
+	border-bottom: 15px solid #fe0190;
+}
+.fig3::before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	display: block;
+	position: relative;
+	top: 15px;
+	margin-left: auto;
+	border-top: 12px solid #981e1d;
+	border-left: 4px solid transparent;
+	border-right: 12px solid transparent;
+}
+
+
+.fig4 {
+	width: 0;
+	height: 0;
+	border-top: 20px solid #d46d70;
+	border-left: 20px solid #fb0200;
+	border-right: 20px solid #fb0200;
+	border-bottom: 10px solid #fb0200;
+}
+.fig4::after {
+	display: block;
+	position: relative;
+	left: -20px;
+	top: -20px;
+	content: "";
+	width: 0px;
+	height: 0px;
+	border-left: 15px solid #d95e10;
+	border-top: 15px solid #e19c95;
+	border-bottom: 15px solid transparent;
+	border-right: 15px solid transparent;
+}
+
+
+.fig5 {
+	width: 0;
+	height: 0;
+	border-top: 25px solid #61ea80;
+	border-left: 25px solid #008001;
+	border-bottom: 25px solid #7394a5;
+	border-right: 25px solid #04fcff;

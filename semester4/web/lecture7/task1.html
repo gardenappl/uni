@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<title>Лекція 7</title>
+	<link rel="stylesheet" type="text/css" href="task1.css">
+</head>
+<body>
+	<h1>CSS <code>:not()</code> pseudo-class</h1>
+	<p>The <code>:not()</code> pseudo-class is also known as the negation pseudo-class.</p>
+	<p>It’s useful to exclude elements from a particular selection.</p>
+	<div class="flex-ctnr">
+		<ul class="ex1">
+			<li class="first-item">Example 1</li>
+			<li>All text is red, except the <code>&lt;li></code> with the class <code>.first-item</code></li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+		</ul>
+		<ul class="ex2">
+			<li class="first-item">Example 2</li>
+			<li>All elements will have <strong>black text</strong> and <strong>orange background</strong>, except the <code>&lt;li></code> with the class <code>.first-item</code> and the last <code>&lt;li></code> of the list</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+		</ul>
+	</div>
+
+	<h1>CSS <code>:nth-child()</code> pseudo-class</h1>
+	<p>Very basic examples of how to use the <code>:nth-child()</code> pseudo-class.</p>
+	<div class="flex-ctnr">
+		<ol class="ex21">
+			<li>Alpha</li>
+			<li>Beta</li>
+			<li>Gamma</li>
+			<li>Delta</li>
+			<li>Epsilon</li>
+			<li>Zeta</li>
+			<li>Eta</li>
+			<li>Theta</li>
+			<li>Iota</li>
+			<li>Kappa</li>
+		</ol>
+		<ol class="ex22">
+			<li>Alpha</li>
+			<li>Beta</li>
+			<li>Gamma</li>
+			<li>Delta</li>
+			<li>Epsilon</li>
+			<li>Zeta</li>
+			<li>Eta</li>
+			<li>Theta</li>
+			<li>Iota</li>
+			<li>Kappa</li>
+		</ol>
+		<ol class="ex23">
+			<li>Alpha</li>
+			<li>Beta</li>
+			<li>Gamma</li>
+			<li>Delta</li>
+			<li>Epsilon</li>
+			<li>Zeta</li>
+			<li>Eta</li>
+			<li>Theta</li>
+			<li>Iota</li>
+			<li>Kappa</li>
+		</ol>
+		<ol class="ex24">
+			<li>Alpha</li>
+			<li>Beta</li>
+			<li>Gamma</li>
+			<li>Delta</li>
+			<li>Epsilon</li>
+			<li>Zeta</li>
+			<li>Eta</li>
+			<li>Theta</li>
+			<li>Iota</li>
+			<li>Kappa</li>
+		</ol>
+	</div>
+	<section class="external-resources">
+		<h2>Resources for <code>:nth</code></h2>   
+		<ul>
+			<li>Lea Verou’s - <em>CSS3 structural pseudo-class selector tester</em>: <a href="http://lea.verou.me/demos/nth.html" target="_blank" title="Link opens in a new tab">http://lea.verou.me/demos/nth.html</a></li>
+			<li>CSS-Tricks’ - <em>:nth Tester</em>: <a href="https://css-tricks.com/examples/nth-child-tester/" target="_blank" title="Link opens in a new tab">https://css-tricks.com/examples/nth-child-tester/</a></li>
+		</ul>
+	</section>
+
+
+	<!-- :checked -->
+	<section class="example-cntr checked">
+		<h1>CSS <code>:checked</code> pseudo-class</h1>
+		<p>The <code>:checked</code> pseudo-class targets <code>radio buttons</code>, <code>checkboxes</code> or <code>option</code> elements that have been checked or selected.</p>
+		<p>In this example, when the checkbox is selected, the label is highlighted to improve the UX.</p>
+		<form>
+			<input type="checkbox" id="checked">
+			<label for="checked">I agree with the Terms &amp; Conditions</label> 
+		</form>
+	</section>
+	
+	<h1>Псевдоелементи</h1>
+	<section class="selection">
+		<h2>CSS <code>::selection</code></h2>
+		<p>Видиліть цей текст</p>
+	</section>
+	<section class="before-after">
+		<h2>CSS <code>::before</code>, <code>::after</code></h2>
+		<p>Ricardo</p>
+	</section>
+</body>
+</body>

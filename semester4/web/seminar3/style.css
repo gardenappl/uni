@@ -1,0 +1,52 @@
+p {
+	font-family: sans-serif;	
+	margin-bottom: 100px;
+}
+
+.highlight-yellow {
+	background-color: yellow;
+}
+
+
+.highlight-red {
+	color: red;
+}
+
+#task1 .highlight-red {
+	font-style: italic;
+	font-weight: bold;
+}
+
+
+.link {
+	color: blue;
+	text-decoration: underline;
+}
+
+
+.large {
+	font-size: 18pt;
+}
+
+/* #task1 .large {
+	font-weight: bold;
+} */
+
+
+.highlight {
+	text-decoration: underline;
+	font-style: italic;
+}
+
+
+.highlight-black {
+	font-weight: bold;
+	font-family: serif;
+}
+
+
+h1 {
+	line-height: 24px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}

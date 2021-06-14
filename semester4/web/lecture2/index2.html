@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form>
+	<fieldset>
+		<legend>Контактная информация</legend>
+
+		<table>
+			<tr>
+				<td><label>Имя</label></td>
+				<td><input type="text" id="name" /></td>
+			</tr>
+			<tr>
+				<td><label>Телефон</label></td>
+				<td><input id="phone" /></td>
+			</tr>
+
+			<tr>
+				<td><label>Email</label></td>
+				<td><input type="email" id="email" /></td>
+			</tr>
+
+			<tr>
+				<td><label>Дата посещения</label></td>
+				<td><input type="date" id="visit-date" /></td>
+			</tr>
+		</table>
+	</fieldset>
+	<fieldset>
+		<legend>Персональная информация</legend>
+		<label>Возраст</label>
+		<input id="age" type="number" min="1" max="100" step="1" /><br/>
+		<label>Любимая кухня</label>
+		<select>
+			<option>Украинская</option>
+		    	<option>Русская</option>
+		    	<option>Итальянская</option>
+		    	<option>Другая</option>
+		</select><br/>
+		<label>Какие блюда вы хотели бы увидеть в меню?</label>
+		<textarea id="meals"></textarea><br/>
+	</fieldset>
+	<fieldset>
+		<legend>Оценка нашего заведения</legend>
+
+		<label>Почему Вы выбрали наше заведение?</label><br/>
+		<input type="radio" name="like-reason" value="not-far">
+		<label for="not-far">Недалеко от дома/работы</label><br/>
+		<input type="radio" name="like-reason" value="saw-ad">
+		<label for="saw-ad">Увидел рекламу</label><br/>
+		<input type="radio" name="like-reason" value="recommended">
+		<label for="recommended">Посоветовали</label><br/>
+		<input type="radio" name="like-reason" value="quality-and-price">
+		<label for="quality-and-price">Оптимальное соотношение цены и качества</label><br/>
+
+		<label>Вы будете рекомендовать наше заведение своим знакомым?</label><br/>
+		<input type="radio" name="will-recommend" value="yes">
+		<label for="yes">Да</label><br/>
+		<input type="radio" name="will-recommend" value="no">
+		<label for="no">Нет</label><br/>
+
+		<label>Если вы не будете рекомендовать, то почему?</label><br/>
+
+		<input type="checkbox" name="hate-reason" value="no-friends">
+		<label for="no-friends">У меня нет друзей :(</label><br/>
+		<input type="checkbox" name="hate-reason" value="bad-food">
+		<label for="bad-food">Еда невкусная</label><br/>
+		<input type="checkbox" name="hate-reason" value="bad-atmosphere">
+		<label for="bad-atmosphere">Неприятная атмосфера</label><br/>
+	</fieldset>
+	<input type="submit" value="Отправить">
+</form>
+
+</body>
+</html>

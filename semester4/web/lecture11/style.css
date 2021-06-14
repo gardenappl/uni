@@ -1,0 +1,42 @@
+form {
+	width: 660px;
+	margin: auto;
+	background-color: #dfd;
+}
+
+body {
+	background-color: #efe;
+}
+
+.country-info {
+	display: none;
+}
+
+.country-sight {
+	float: left;
+	width: 200px;
+	height: 300px;
+	padding: 10px;
+}
+
+.sight-photo {
+	display: block;
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+
+.country-flag {
+	display: block;
+	margin: auto;
+	height: 50px;
+}
+
+.country-info h3 {
+	text-align: center;
+}
+
+.country-info {
+	width: 660px;
+	overflow: hidden;
+}

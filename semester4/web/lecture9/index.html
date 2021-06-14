@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="uk">
+	<meta charset="UTF-8">
+	<title>Лекція 9. JavaScript</title>
+	<script>
+
+function fizzbuzz(endNum) {
+	for (var i = 1; i <= endNum; i++) {
+		let output = "";
+
+		if (i % 3 == 0)
+			output = "fizz";
+		if (i % 5 == 0)
+			output += "buzz";
+		else if (i % 3 != 0)
+			output = i;
+
+		console.log(output);
+	}
+}
+
+let cost = function(hrn, kopiykas) {
+	hrn += Math.floor(kopiykas / 100);
+	kopiykas %= 100;
+
+	let output = "Вартість замовлення: ";
+	
+	output += hrn;
+	if (hrn % 10 == 1)
+		output += " гривня ";
+	else if (hrn % 10 > 1 && hrn % 10 <= 4 && (hrn % 100) / 10 >= 2)
+		output += " гривні ";
+	else
+		output += " гривень ";
+
+	output += kopiykas;
+	if (kopiykas % 10 == 1)
+		output += " копійка";
+	else if (kopiykas % 10 > 1 && kopiykas % 10 <= 4 && (kopiykas % 100) / 10 >= 2)
+		output += " копійки";
+	else
+		output += " копійок";
+
+	console.log(output);
+};
+
+
+class Point {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	getQuadrant() {
+		if (this.x > 0) {
+			if (this.y > 0)
+				return 1;
+			else if (this.y < 0)
+				return 2;
+		}
+		else if (this.x < 0) {
+			if (this.y < 0)
+				return 3;
+			else if (this.y > 0)
+				return 4;
+		}
+		return null;
+	}
+
+	static getDistance(p1, p2) {
+		return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) +
+			(p1.y - p2.y) * (p1.y - p2.y));
+	}
+};
+
+let pointFunc = (p1, p2) => {
+	const p1quadrant = p1.getQuadrant();
+	const p2quadrant = p2.getQuadrant();
+
+	if(p1quadrant == p2quadrant && p1quadrant != null) {
+		console.log("Відстань: " + Point.getDistance(p1, p2));
+	} else {
+		if(p1quadrant == null)
+			console.log("Точка 1 не знаходиться в жодній чверті");
+		else	
+			console.log("Точка 1 знаходиться в чверті " + p1quadrant);
+
+		if(p2quadrant == null)
+			console.log("Точка 2 не знаходиться в жодній чверті");
+		else
+			console.log("Точка 2 знаходиться в чверті " + p2quadrant);
+	}
+};
+
+
+	</script>
+		
+</head>
+</html>

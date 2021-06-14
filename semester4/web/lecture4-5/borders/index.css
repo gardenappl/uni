@@ -1,0 +1,147 @@
+div.centertext {
+	font: bold 18pt sans-serif;
+	display: flex;	
+	justify-content: center;
+	align-items: center;
+}
+.centertext > div {
+	text-align: center;
+}
+
+
+
+p.task1 {
+	border-style: solid;
+	border-width: 5px;
+	border-color: #cacd58;
+	border-top-style: groove;
+}
+
+
+
+div.task2 {
+	width: 500px;
+	height: 100px;
+	border: solid 5px #cacd58;
+}
+
+
+
+/* Using CSS Grid, finally */
+.task3 {
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: repeat(6, max-content);
+	grid-auto-rows: auto;
+}
+.task3 div {
+	width: 100px;
+	height: 100px;
+	border: 5px solid;
+}
+div.r1 {border-radius: 0 0 20px 20px;}
+div.r2 {border-radius: 0 10px 20px;}
+div.r3 {border-radius: 10px 20px;}
+div.r4 {border-radius: 10px/20px;}
+div.r5 {border-radius: 5px 10px 15px 30px/30px 15px 10px 5px;}
+div.r6 {border-radius: 10px 20px 30px 40px/30px;}
+div.r7 {border-radius: 50%;}
+div.r8 {border-top: none; border-bottom: none; border-radius: 30px/90px;}
+div.r9 {border-bottom-left-radius: 100px;}
+div.r10 {border-radius: 0 100%;}
+div.r11 {border-radius: 0 50% 50% 50%;}
+div.r12 {border-top-left-radius: 100% 20px; border-bottom-right-radius: 100% 20px;}
+
+
+
+/* Пример 1 */
+div.task4a {
+	width: 260px; height: 100px; 
+	border-style: solid;
+	border-image-width: 15px;
+	border-image-source: url(border_round.png);
+	border-image-slice: 30;
+	border-image-repeat: stretch;
+}
+/* Пример 2 */
+div.task4b {
+	width: 260px; height: 100px; 
+	border-style: solid;
+	border-image-width: 15px;
+	border-image-source: url(border_round.png);
+	border-image-slice: 30;
+	border-image-repeat: round;
+}
+
+
+
+.task5 {
+	margin-bottom: 40px;
+	display: grid;
+	grid-gap: 40px;
+	grid-template-columns: repeat(3, max-content);
+	grid-auto-rows: auto;
+}
+.task5 div {
+	width: 200px; height: 150px;
+	border-image-source: url(border_round.png);
+	border-style: solid;
+	border-image-slice: 30;
+	border-image-repeat: stretch;	
+}
+.task5 div.a { border-image-width: 30px; }
+.task5 div.b { border-image-width: 3; }
+.task5 div.c { border-image-width: 30%; }
+
+
+
+.task6 {
+	margin-bottom: 40px;
+	display: grid;
+	grid-gap: 40px;
+	grid-template-columns: repeat(3, max-content);
+	grid-auto-rows: auto;
+}
+.task6 div {
+	background: green;
+	width: 200px; height: 150px;
+	border-image-source: url(border_round.png);
+	border-style: solid;
+	border-image-slice: 30;
+	border-image-repeat: stretch;	
+	border-image-width: 30px;
+}
+.task6 div.a { border-image-outset: 10px; }
+.task6 div.b {}
+.task6 div.c { border-image-outset: 2em; }
+
+
+
+/* * {box-sizing:border-box;} */
+.wrap {
+height: 200px;
+padding: 25px;
+background: #00E4F6;
+}
+.gradient {
+height: 150px; 
+width: 50%; 
+margin: 0 auto;
+border: 10px solid transparent;
+border-image: linear-gradient(to right, transparent 0%, #ADF2F7 100%);
+border-image-slice: 1;
+}
+
+
+/* * {box-sizing:border-box;} */
+.wrap2 {
+height: 200px;
+padding: 25px;
+}
+.gradient2 {
+height: 150px; 
+width: 50%; 
+margin: 0 auto;
+border: 10px solid transparent;
+border-image: 10 repeating-linear-gradient(45deg, #A7CECC, #A7CECC 10px, transparent 10px, transparent 20px, #F8463F 20px, #F8463F 30px,transparent 30px, transparent 40px);
+}

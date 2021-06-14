@@ -1,0 +1,9 @@
+.mono {
+	font-family: monospace;
+	color: red;
+}
+.task1 { background-color: silver; }
+.task1 h2 { background-color: yellow; }
+.task1 .a { position: static; }
+.task1 .b { position: relative; top: 10px; }
+.task1 .c { position: absolute; top: 10px; }

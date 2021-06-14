@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head lang="uk">
+	<meta charset="UTF-8">
+	<title>Лекція 11. JavaScript</title>
+	<script src="script.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<form name="travel-tickets">
+		<label for="country">Оберіть країну, для якої хочете подивитись інформацію:</label>
+		<select id="country">
+			<option value="">--Оберіть країну--</option>
+			<option value="italy">Італія</option>
+			<option value="france">Франція</option>
+			<option value="japan">Японія</option>
+			<option value="usa">США</option>
+			<option value="belarus">Білорусія</option>
+		</select>
+		<br>
+		<div class="country-info" id="japan-info">
+			<h3>Японія</h4>
+			<img class="country-flag" src="japan-flag.svg">
+			<br>
+			<input type="checkbox" id="japan" name="japan">
+			<label for="japan" class="price-label">Квиток у Японію</label>
+
+			<div class="country-sights" id="japan-sights">
+				<div class="country-sight" id="weeb-musem-div">
+					<img class="sight-photo" src="weeb-museum.jpg">
+					<input type="checkbox" name="weeb-museum" id="weeb-museum">
+					<label for="weeb-museum">Музей Toei Animation</label>
+				</div>
+
+				<div class="country-sight" id="hiroshima-div">
+					<img class="sight-photo" src="hiroshima.jpg">
+					<input type="checkbox" name="hiroshima" id="hiroshima">
+					<label for="hiroshima">Хіросійський меморіал миру</label>
+				</div>
+
+				<div class="country-sight" id="tokyo-palace-div">
+					<img class="sight-photo" src="tokyo-palace.jpg">
+					<input type="checkbox" name="tokyo-palace" id="tokyo-palace">
+					<label for="tokyo-palace">Токійський імператорський палац</label>
+				</div>
+			</div>
+		</div>
+		<div class="country-info" id="italy-info">
+			<h3>Італія</h4>
+			<img class="country-flag" src="italy-flag.svg">
+			<br>
+			<input type="checkbox" id="italy" name="italy">
+			<label for="italy" class="price-label">Квиток у Італію</label>
+
+			<div class="country-sights" id="italy-sights">
+				<div class="country-sight" id="colosseum-div">
+					<img class="sight-photo" src="colosseum.jpg">
+					<input type="checkbox" name="colosseum" id="colosseum">
+					<label for="colosseum">Колізей</label>
+				</div>
+
+				<div class="country-sight" id="pisa-div">
+					<img class="sight-photo" src="pisa-tower.jpg">
+					<input type="checkbox" name="pisa-tower" id="pisa-tower">
+					<label for="pisa-tower">Пізанська вежа</label>
+				</div>
+
+				<div class="country-sight" id="sistine-div">
+					<img class="sight-photo" src="sistine.jpg">
+					<input type="checkbox" name="sistine-chapel" id="sistine-chapel">
+					<label for="sistine-chapel">Сікстинська капела</label>
+				</div>
+			</div>
+		</div>
+		<div class="country-info" id="france-info">
+			<h3>Франція</h4>
+			<img class="country-flag" src="france-flag.svg">
+			<br>
+			<input type="checkbox" id="france" name="france">
+			<label for="france" class="price-label">Квиток у Францію</label>
+
+			<div class="country-sights" id="france-sights">
+				<div class="country-sight" id="eiffel-div">
+					<img class="sight-photo" src="eiffel-tower.jpg">
+					<input type="checkbox" name="eiffel" id="eiffel">
+					<label for="eiffel">Ейфелева вежа</label>
+				</div>
+
+				<div class="country-sight" id="arc-div">
+					<img class="sight-photo" src="arc.jpg">
+					<input type="checkbox" name="arc" id="arc">
+					<label for="arc">Тріумфальна арка</label>
+				</div>
+
+				<div class="country-sight" id="louvre-div">
+					<img class="sight-photo" src="louvre.jpg">
+					<input type="checkbox" name="louvre" id="louvre">
+					<label for="louvre">Лувр</label>
+				</div>
+			</div>
+		</div>
+		<div class="country-info" id="belarus-info">
+			<h3>Білорусь</h4>
+			<img class="country-flag" src="belarus-flag.svg">
+			<br>
+			<input type="checkbox" id="belarus" name="belarus">
+			<label for="belarus" class="price-label">Білорусь</label>
+
+			<div class="country-sights" id="belarus-sights">
+				<div class="country-sight" id="belarus1-div">
+					<img class="sight-photo" src="placeholder1.jpg">
+					<input type="checkbox" name="belarus1" id="belarus1">
+					<label for="belarus1">Білорусь №1</label>
+				</div>
+				<div class="country-sight" id="belarus2-div">
+					<img class="sight-photo" src="placeholder2.jpg">
+					<input type="checkbox" name="belarus2" id="belarus2">
+					<label for="belarus2">Білорусь №2</label>
+				</div>
+				<div class="country-sight" id="belarus3-div">
+					<img class="sight-photo" src="placeholder3.jpg">
+					<input type="checkbox" name="belarus3" id="belarus3">
+					<label for="belarus3">Білорусь №3</label>
+				</div>
+			</div>
+		</div>
+		<div class="country-info" id="usa-info">
+			<h3>Сполучені Штати Америки</h4>
+			<img class="country-flag" src="usa-flag.svg">
+			<br>
+			<input type="checkbox" id="usa" name="usa">
+			<label for="usa" class="price-label">Квиток у США</label>
+
+			<div class="country-sights" id="usa-sights">
+				<div class="country-sight" id="rushmore-div">
+					<img class="sight-photo" src="rushmore.jpg">
+					<input type="checkbox" name="rushmore" id="rushmore">
+					<label for="rushmore">Гора Рашмор</label>
+				</div>
+
+				<div class="country-sight" id="canyon-div">
+					<img class="sight-photo" src="grand-canyon.jpg">
+					<input type="checkbox" name="canyon" id="canyon">
+					<label for="canyon">Великий каньйон</label>
+				</div>
+
+				<div class="country-sight" id="white-house-div">
+					<img class="sight-photo" src="white-house.jpg">
+					<input type="checkbox" name="white-house" id="white-house">
+					<label for="white-house">Білий дім</label>
+				</div>
+			</div>
+		</div>
+		<span id="total-price-desc">Загальна вартість квитків: </span>
+		<span id="total-price">0,00 грн.</span>
+		<button type="submit">Перейти до покупки</button>
+	</form>
+</body>
+</html>

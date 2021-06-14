@@ -1,0 +1,65 @@
+div.task1 {
+	position: relative;
+	width: 400px;
+	height: 180px;
+	background-color: #4472c4;
+	border-top-right-radius: 50px;
+	border-bottom-left-radius: 50px;
+}
+.task1 div {
+	width: 70px;
+	height: 70px;
+	background-color: #000;
+	border-radius: 50%;
+	position: absolute;
+}
+.task1 div.c1 {
+	left: 320px;
+	top: 10px;
+}
+.task1 div.c2 {
+	left: 10px;
+	top: 100px;
+}
+
+
+
+div.task2 {
+	position: relative;
+	background-color: #e8e3e9;
+	width: 450px;
+	height: 300px;
+}
+.task2 div {
+	position: absolute;
+	width: 140px;
+	height: 140px;
+	border: solid 15px;
+	border-radius: 50%;
+}
+/* I could also use z-index here but it's probably unnecessary */
+.task2 div.c1 {
+	top: 15px;
+	left: 20px;
+	border-color: #36187a;
+}
+.task2 div.c2 {
+	top: 15px;
+	left: 140px;
+	border-color: #1a1a1a;
+}
+.task2 div.c3 {
+	top: 15px;
+	left: 260px;
+	border-color: #e64100;
+}
+.task2 div.c4 {
+	top: 115px;
+	left: 70px;
+	border-color: #edef00;
+}
+.task2 div.c5 {
+	top: 115px;
+	left: 200px;
+	border-color: #009d4c;
+}

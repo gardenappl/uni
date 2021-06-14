@@ -1,0 +1,81 @@
+.task1 caption {
+	caption-side: bottom;
+	text-align: right;
+	padding: 10px 0; 
+	font-size: 14px;
+}
+table.task1 {
+	border: 1px solid blue;
+}
+.task1 th {
+	border-bottom: 1px dashed blue;
+}
+.task1 th, .task1 td {
+	padding: 10px 10px;
+}
+
+
+
+.task2 caption {
+	caption-side: bottom;
+	text-align: right;
+	padding: 10px 0; 
+	font-size: 14px;
+}
+table.task2 {
+	border: 1px solid blue;
+	margin: 10px;
+}
+.task2 th, .task2 td {
+	border: 1px dashed blue;
+	padding: 10px 10px;
+}
+table.task2.b {
+	border-collapse: collapse;
+}
+
+
+
+.task3 caption {
+	caption-side: bottom;
+	text-align: right;
+	padding: 10px 0; 
+	font-size: 14px;
+}
+table.task3 {
+	border: 1px solid blue;
+	margin: 10px;
+	empty-cells: hide;
+}
+.task3 th, .task3 td {
+	border: 1px dashed blue;
+	padding: 10px 10px;
+}
+table.task3.a {
+	border-spacing: 10px 20px;
+}
+table.task3.b {
+	border-spacing: 10px;
+}
+
+
+
+.task4 caption {
+	caption-side: bottom;
+	text-align: right;
+	padding: 10px 0; 
+	font-size: 14px;
+}
+table.task4 {
+	border: 1px solid blue;
+	margin: 10px;
+	empty-cells: hide;
+	width: 600px;
+}
+.task4 th, .task4 td {
+	border: 1px dashed blue;
+	padding: 10px 10px;
+}
+table.task4.b {
+	table-layout: fixed;
+}

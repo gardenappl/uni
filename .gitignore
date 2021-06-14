@@ -2,9 +2,13 @@
 *.layout
 **/bin/*
 **/obj/*
+**/out/*
 **/*.depend
 */.directory
 .directory
 */Test/
 TempProjects/
 **/.~lock*
+**/CMakeLists.txt.user
+**/.vs/
+**/*.zip

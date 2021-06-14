@@ -1,0 +1,21 @@
+.container {
+	width: 60%;
+	margin: 12px auto;
+	border: solid 2px #b43273;
+	padding: 0 20px 20px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	color: #b43273;
+}
+
+body { margin: 0 }
+
+footer {
+	margin: 12px 0 2px;
+	padding: 12px;
+	color: #fff;
+	background-color: #b43273;
+	font-size: 18pt;
+	font-weight: bold;
+	text-align: center;
+}

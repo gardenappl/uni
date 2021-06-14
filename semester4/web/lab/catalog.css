@@ -1,0 +1,149 @@
+#catalog {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	padding-bottom: 10px;
+	margin-bottom: 180px;
+}
+
+#catalog > div {
+	padding: 20px 0px;
+}
+
+#left-block {
+	grid-column: 1 / 2;
+}
+
+#left-block > ul {
+	font-size: 18px;
+	line-height: 30px;
+	padding-bottom: 100px;
+}
+
+#left-block > ul > ul {
+	font-size: 14px;
+	line-height: 22px;
+	list-style: '• ';
+	padding-left: 20px;
+}
+
+#left-block #current {
+	text-decoration: underline;
+}
+
+#catalog a {
+	color: #333;
+	text-decoration: none;
+}
+
+#catalog a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+#excel-logo {
+	position: relative;
+	width: 100px;
+	filter: grayscale(100%);
+	margin-bottom: 10px;
+}
+
+#price-list {
+	position: relative;
+	left: 10px;
+	width: 160px;
+	font-weight: bold;
+	font-size: 30px;
+	text-align: center;
+}
+
+
+#center-block {
+	grid-column: 2 / 3;
+}
+
+#items-grid {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-gap: 18px 18px;
+	padding-bottom: 20px;
+}
+
+.car-card {
+	position: relative;
+	box-sizing: border-box;
+	width: 250px;
+	height: 380px;
+	padding: 18px;
+	background-color: #ddd;
+}
+
+.car-card:hover {
+	background-color: #bbb;
+}
+
+.car-photo {
+	width: 210px;
+	height: 210px;
+	object-fit: cover;
+}
+
+.car-name {
+	font-weight: bold;
+	color: #000;
+	font-size: 18px;
+	line-height: 18px;
+}
+
+.car-desc {
+	font-size: 18px;
+	line-height: 18px;
+}
+
+.car-price {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	padding: 18px;
+	font-size: 28px;
+	font-weight: bold;
+	color: #000;
+}
+
+/* .add-to-cart {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	padding: 18px;
+} */
+
+#page-list {
+	text-align: center;
+}
+
+#page-list ul {
+	white-space: nowrap;
+	display: inline-block;
+	margin: auto;
+	list-style-type: none;
+}
+
+#page-list li {
+	width: min-content;
+	display: inline-block;
+	margin: 8px;
+}
+
+#page-list .active {
+	font-size: 18px;
+	color: #000;
+}
+
+#about-creators {
+	margin-top: 60px;
+	padding-top: 25px;
+	border-top: 1px solid #333;
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-column-gap: 40px;
+}

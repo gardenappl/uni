@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+	<meta charset="UTF-8">
+	<script src="cookieedit.js"></script>
+	<link rel="stylesheet" type="text/css" href="cookieedit.css">
+</head>
+<body>
+	<h1>Редактор cookie</h1>
+	<div id="info">
+		<b>Декілька слів про редактор:</b>
+		<ul>
+			<li>Всі введені користувачем значення обробляються через encodeURI() та encodeURIComponenet().</li>
+			<li>Щоб перевірити цю роботу, потрібно хостити локальний сервер. (Choromium не підтримує куки для file://)</li>
+			<li>У Chrome/Chromium, якщо ви перевірятимете роботу cookies через панель веб-розробника, то зауважте, що в ньому список cookies автоматично не оновлюється. Потрібно вручну його оновлювати, щоб побачити зміни.</li>
+			<li>Через обмеження Cookies API, JavaScript може зчитувати тільки ім'я та значення cookies, а не будь-які інші атрибути.</li>
+			<ul>
+				<li>Через це, якщо оновити цю сторінку, то вся інформація про Expiry Date, Domain і т.д. не буде збережена.</li>
+				<li>Також це означає, що якщо в браузері зберігається декілька cookies з одним і тим же іменем, але в різних Path, то редактор ламається (оскільки не може відризнити їх один від одного).</li>
+			</ul>
+			<li>Взагалі, краще вважати це не "редактором", а "створювачем" cookie :)</li>
+			<li>Також Cookies API не дозволить вводити нелегальні значення, тобто якщо сервер хоститься на 0.0.0.0, то не можна ввести path=example.com</li>
+		</ul>
+	</div>
+	<div id="cookie-editor">
+		<table id="cookie-table">
+			<tr>
+				<td></td>
+				<th>Назва</th>
+				<th>Значення</th>
+				<th>Час застарівання</th>
+				<th>Піддомен</th>
+				<th>Підкаталог</th>
+			</tr>
+		</table>
+		<button id="create-cookie" onclick="createCookie();">Створити cookie</button>
+		<button id="save-changes" disabled onclick="saveChanges();">Зберегти зміни</button>
+	</div>
+</body>
+</html>

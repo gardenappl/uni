@@ -1,0 +1,71 @@
+.task1 span {
+	background-color: cyan;
+}
+p.task1 { background-color: magenta; }
+h1.task1 { background-color: #00ff00; }
+
+.task2 div {
+	width: 300px; 
+	height: 150px;
+	background-image: url(thumbs-up-small.png);
+	border-style: solid;
+	text-align: center;
+}
+.task2 div.no { background-repeat: no-repeat; }
+.task2 div.x { background-repeat: repeat-x; }
+.task2 div.y { background-repeat: repeat-y; }
+
+.task3 div {
+	width: 300px; 
+	height: 150px;
+	background-image: url(thumbs-up-small.png);
+	border-style: solid;
+	text-align: center;
+	background-repeat: no-repeat;
+}
+.task3 div.center { background-position: center center; }
+.task3 div.down { background-position: 50% 100%; }
+.task3 div.left { background-position: left; }
+.task3 div.leftish { background-position: 50px; }
+
+div.task4 {
+	width: 600px; 
+	height: 200px;
+	background-image: url(thumbs-up-small.png), url(flower.png);
+	border-style: solid;
+	background-repeat: repeat-x;
+	background-position: 0 120px, 0 20px;
+}
+
+div.task5 {
+	background-origin: border-box;
+	padding: 10px;
+	width: 600px; 
+	height: 200px;
+	box-sizing: border-box;
+	background-image: url(ambulance.png);
+	border-style: solid;
+	background-repeat: no-repeat;
+}
+
+div.task5b {
+	background-origin: content-box;
+	padding: 10px;
+	box-sizing: border-box;
+	width: 600px; 
+	height: 200px;
+	background-image: url(ambulance.png);
+	border-style: solid;
+	background-repeat: no-repeat;
+}
+
+div.task6 {
+	width: 300px;
+	height: 150px;
+	border-style: solid;
+	background: no-repeat url(thumbs-up-small.png)
+}
+div.task6.a { background-size: 300px 150px }
+div.task6.b { background-size: 30% 50% }
+div.task6.c { background-size: cover }
+div.task6.d { background-size: contain }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - Формы</title>
+<style>
+	.required {
+		color: red;
+	}
+/* Does not work in Chrome for some reason */
+/*	fieldset.standard {
+		display: grid;
+		grid-template-columns: 120px 500px;
+		grid-gap: 1em 0.6em;
+	}
+
+	label {
+		grid-column: 1 / 2;
+	}
+
+	input {
+		grid-column: 2 / 3;
+	}
+*/
+
+/*
+	fieldset.standard {
+		line-height: 30px;
+	}
+*/
+
+	label {
+		width: 120px;
+		display: inline-block;
+	}
+
+	legend {
+		font-size: 18px;
+	}
+</style>
+</head>
+<body>
+<h1>Форма заявки на работу в зоопарке</h1>
+<p><i>Пожалуйста, заполните форму. Обязательные поля помечены <span class="required">*</span></i>
+<form>
+	<fieldset class="standard">
+		<legend>Контактная информация</legend>
+
+		<label for="name">Имя <span class="required">*</span></label>
+		<input required type="text" id="name" name="name" /><br/>
+		<label for="phone">Телефон</label>
+		<input id="phone" name="phone" /><br/>
+		<label for="email">Email <span class="required">*</span></label>
+		<input required type="email" id="email" name="email" /><br/>
+	</fieldset>
+
+	<fieldset class="standard">
+		<legend>Персональная информация</legend>
+		
+		<label for="age">Возраст <span class="required">*</span></label>
+		<input required type="number" id="age" name="age" min="1" max="100" /><br/>
+		<label for="gender">Пол</label>
+		<select name="gender" id="gender">
+			<option value="male">Мужчина</option>
+			<option value="female">Женщина</option>
+			<option value="other">Другой</option>
+		</select><br/>
+		<label for="qualities">Перечислите личные качества</label>
+		<textarea name="qualities" id="qualities"></textarea><br/>
+	</fieldset>
+	<fieldset>
+		<legend>Выберите ваших любимых животных</legend>
+	
+		<table width="100%">
+			<tr>
+				<td><input name="fav-animal" value="zebra" type="checkbox">Зебра</input></td>
+				<td><input name="fav-animal" value="cat" type="checkbox">Кошак</input></td>
+				<td><input name="fav-animal" value="anaconda" type="checkbox">Анаконда</input></td>
+				<td><input name="fav-animal" value="human" type="checkbox">Человек</input></td>
+			</tr>
+			<tr>
+				<td><input name="fav-animal" value="elephant" type="checkbox">Слон</input></td>
+				<td><input name="fav-animal" value="antilope" type="checkbox">Антилопа</input></td>
+				<td><input name="fav-animal" value="pidgeon" type="checkbox">Голубь</input></td>
+				<td><input name="fav-animal" value="crab" type="checkbox">Краб</input></td>
+			</tr>
+		</table>
+	</fieldset>
+	<input type="submit" value="Отправить информацию" />
+</form>
+</body>

@@ -1,0 +1,47 @@
+.item-element:not(.level0) {
+	position: relative;
+	padding: 0px 0px 0px 8px;
+	margin: 0px 0px 0px 12px;
+	border-left: 1px solid #ccc;
+}
+
+.item-name {
+	user-select: none;
+	padding: 2px;
+	margin: 0px;
+	position: relative;
+}
+
+.level0 {
+	margin-left: 0px;
+	/* background-color: hsl(0, 100%, 90%); */
+}
+/*
+.level1 {
+	background-color: hsl(50, 100%, 90%);
+}
+
+.level2 {
+	background-color: hsl(100, 100%, 90%);
+}
+*/
+.expandable::after {
+	content: '▾';
+	margin-left: 5px;
+}
+
+.expanded::after {
+	content: '▴';
+	margin-left: 5px;
+}
+
+.item-name:not(.level0)::before {
+	content: '';
+	border-bottom: 1px solid #ccc;
+	position: absolute;
+	width: 8px;
+	height: 30px;
+	left: -8px;
+	bottom: 0px;
+}
+

@@ -1,0 +1,29 @@
+body {
+	background-color: #bee;
+}
+
+#info {
+	padding: 10px;
+	margin: 20px;
+	background-color: #eff;
+}
+
+#cookie-editor {
+	text-align: center;
+	width: 100%;
+}
+
+#cookie-table {
+	margin: 5px auto;
+	width: auto;
+	border-collapse: collapse;
+}
+
+#cookie-table th, #cookie-table td {
+	padding: 5px;
+	border-left: 2px solid #488;
+}
+
+#cookie-table th:first-child, #cookie-table td:first-child {
+	border-left: none;
+}

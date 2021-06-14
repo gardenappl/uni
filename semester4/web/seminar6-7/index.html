@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="ua">
+	<meta charset="UTF-8">
+	<title>Семінар 6-7. Проект "Кошик"</title>
+	<script src="script.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<table class="input-form">
+		<tr><td class="title">
+			Замовлення на придбання товару	
+		</td></tr>
+		<tr><td>
+			Назва товару
+			<br>
+			<select onchange="onBookSelected();" name="book" id="book">
+				<option value="">--Оберіть книгу--</option>
+				<option value="cybernetics">Петренко. Кібернетика - 10,50 грн.</option>
+				<option value="cybernetics2">Петренко. Кібернетика 2: Повстання - 21,00 грн.</option>
+				<option value="not-cybernetics">Іваненко. Не кібернетика - 50,10 грн.</option>
+				<option value="the-result">Д. Канат. Відрахування - 13,00 грн.</option>
+				<option value="web">Катеринич. Основи WEB-технологій - 30,00 грн.</option>
+			</select>
+		</td></tr>
+		<tr><td>
+			<label for="book-amount">Кількість:</label>
+			<input onchange="onAmountEntered();" type="number" id="book-amount">	
+			<label for="total-cost">Вартість замовлених книг:</label>
+			<input type="text" readonly id="total-cost">
+		</td></tr>
+		<tr><td>
+			Спосіб доставки замовлення
+			<br>
+			<input onchange="onAmountEntered();" type="radio" id="post-office" name="delivery-method" value="post-office" checked>
+			<label for="post-office">Поштою</label>
+			<br>
+			<input onchange="onAmountEntered();" type="radio" id="home-delivery" name="delivery-method" value="home-delivery">
+			<label for="home-delivery">Доставка до дому</label>
+			<br>
+			<input onchange="onAmountEntered();" type="checkbox" id="present-wrap" name="present-wrap" checked>
+			<label for="present-wrap">У святковій упаковці</label>
+		</td></tr>
+		<tr><td class="opposite-align">
+			<label for="final-cost">Загальна вартість замовлення</label>
+			<input type="text" id="final-cost" readonly>
+			<button onclick="calcTotal();" type="button">Підрахувати</button>	
+		</td></tr>
+		<tr><td>
+			Дані замовника
+			<br>
+			<label for="user-real-name">Імʼя:</label>
+			<input required type="text" id="user-real-name" name="user-real-name">
+			<label for="user-address">Адреса:</label>
+			<input required type="text" id="user-address" name="user-address">
+		</td></tr>
+		<tr><td class="opposite-align">
+			<button onclick="clearCart();" type="button">Відновити початкові значення полів</button>	
+			<button onclick="submit();" type="button">Відіслати дані</button>
+		</td></tr>
+	</table>
+	<div id="form-result">
+		<!-- filled by JS -->	
+	</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Прайс-лист - Auto Salon Co.</title>
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="pricelist.css">
+	<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+	<script src="scripts.js"></script>
+</head>
+<body>
+	<div id="non-footer-wrapper">
+		<div id="header-bg" class="container">
+			<div id="header" class="content">
+				<img id="logo" src="logo.jpg" alt="The AUTO SALON Co. логотип"></img>
+				<div id="company-name">Auto Salon Co.</div>
+				<div id="company-slogan">самый клёвый автосалон</div>
+				<div id="phone-numbers">+7(499) 777-77-77<br>+7(499) 777-77-77</div>
+				<div id="contact"><a href="#">Обратная связь</a></div>
+			</div>
+		</div>	
+		<div id="menu-bg" class="container">
+			<div id="menu" class="content">
+				<ul>
+					<li><a href="#">Главная</a></li>
+					<li><a href="catalog.html">Каталог</a></li>
+					<li><a href="testdrive.html">Тест-драйв</a></li>
+					<li><a href="#">Прайс-лист</a></li>
+					<li><a href="#">Контакты</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="slider" class="container">
+			<img id="slider-img1" class="active" src="slider-1.jpg">
+			<img id="slider-img2" class="hidden" src="slider-2.jpg">
+			<img id="slider-img3" class="hidden" src="slider-3.jpg">
+			<div id="slider-buttons" class="content">
+				<div id="prev"><img src="prev.svg"></div>
+				<div id="next"><img src="next.svg"></div>
+			</div>
+		</div>
+		<div id="breadcrumbs-bg" class="container">
+			<div id="breadcrumbs" class="content">
+				<ol>
+					<li><a href="#">Главная</a></li>
+					<li>Прайс-лист</li>
+				</ol>
+			</div>	
+		</div>
+		<div id="catalog-bg" class="container">
+			<div id="catalog" class="content">
+				<div id="left-block">
+					<h2>Содержание</h2>
+					<ul>
+						<li><a href="#hatch">Хэтчбеки</a></li>
+						<ul>
+							<li><a href="#zaz">ЗАЗ</a></li>
+							<li><a href="#bmw">BMW</a></li>
+							<li><a href="#honda">Honda</a></li>
+							<li><a href="#toyota">Toyota</a></li>
+						</ul>
+						<li><a href="#sedans">Седаны</a></li>
+						<li><a href="#suvs">Внедорожники</a></li>
+						<li><a href="#sports">Спорткары</a></li>
+						<ul>
+							<li><a href="#ford">Ford</a></li>
+							<li><a href="#koenigsegg">Koenigsegg</a></li>
+						</ul>
+					</ul>
+					<div id="price-list">
+						<img id="excel-logo" src="excel-green.svg">	
+						<br>Прайс-лист
+					</div>
+				</div>	
+				<div id="center-block">
+					<h2 class="car-type" id="hatch">Хэтчбеки</h2>
+					<h3 class="car-manufacturer" id="zaz">ЗАЗ</h3>
+					<table class="car-table">
+						<tr>
+							<th>Модель</th>
+							<th>Цена</th>
+						</tr>	
+						<tr>
+							<td>ЗАЗ-1101 "Таврия"</td>
+							<td>40,000 грн.</td>
+						</tr>
+						<tr>
+							<td>ЗАЗ-968А "Запорожец"</td>
+							<td>30,000 грн.</td>
+						</tr>
+					</table>
+					<h3 class="car-manufacturer" id="bmw">BMW</h3>
+					<table class="car-table">
+						<tr>
+							<th>Модель</th>
+							<th>Цена</th>
+						</tr>	
+						<tr>
+							<td>BMW i3</td>
+							<td>600,000 грн.</td>
+						</tr>
+						<tr>
+							<td>BMW i3</td>
+							<td>600,000 грн.</td>
+						</tr>
+						<tr>
+							<td>BMW i3</td>
+							<td>600,000 грн.</td>
+						</tr>
+						<tr>
+							<td>BMW i3</td>
+							<td>600,000 грн.</td>
+						</tr>
+					</table>
+					<h3 class="car-manufacturer" id="honda">Honda</h3>
+					<h3 class="car-manufacturer" id="toyota">Toyota</h3>
+					<h2 class="car-type" id="sedans">Седаны</h2>
+					<h2 class="car-type" id="suvs">Внедорожники</h2>
+					<h2 class="car-type" id="sports">Спортакары</h2>
+					<h3 class="car-manufacturer" id="ford">Ford</h3>
+					<table class="car-table">
+						<tr>
+							<th>Модель</th>
+							<th>Цена</th>
+						</tr>	
+						<tr>
+							<td>Ford GT (Mk. I)</td>
+							<td>5,000,000 грн.</td>
+						</tr>
+						<tr>
+							<td>Ford GT (Mk. II)</td>
+							<td>10,000,000 грн.</td>
+						</tr>
+					</table>
+					<h3 class="car-manufacturer" id="koenigsegg">Koenigsegg</h3>
+					<table class="car-table">
+						<tr>
+							<th>Модель</th>
+							<th>Цена</th>
+						</tr>	
+						<tr>
+							<td>Koenigsegg Agera</td>
+							<td>15,000,000 грн.</td>
+						</tr>
+						<tr>
+							<td>Koenigsegg One:1</td>
+							<td>50,000,000 грн.</td>
+						</tr>
+						<tr>
+							<td>Koenigsegg Regera</td>
+							<td>20,000,000 грн.</td>
+						</tr>
+					</table>
+					<div id="about-creators">
+						<div id="col1">
+							Компания «Програмная инженерия» существует уже 1 семестр, за это время мы принимали участие в разработке более чем 700 сайтов, поэтому можем уверенно называть себя профессионалами. На данный момент наш коллектив состоит из более чем 30 сотрудников работающих в двух офисах в Москве и Зеленограде. Характерные для этого жанра мотивы: неразделённая любовь, уход молодости, угасание души. 
+						</div>
+						<div id="col2">Одним из основных направлений работ нашей компании является поисковое продвижение сайтов, на данной момент мы работаем с более чем 150 постоянными клиентами по более чем 11 000 поисковым запросам. При этом в работе основной акцент мы делаем на качестве работ, а так же применяем собственные уникальные разработки в области SEO продвижения. На данный момент отдел SEO состоит из 9 человек под руководством ведущего специалиста, преимущественно работающих в нашем московском офисе.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer-bg" class="container">
+		<div id="footer" class="content">
+			<div id="copyright-contact">© 2019-2020 ЗАО «Auto Salon Co.»<br>yu.hrysh@gmail.com</div>	
+			<ul id="footer-menu">
+				<li><a href="#">Главная</a></li>
+				<li><a href="catalog.html">Каталог</a></li>
+				<li><a href="testdrive.html">Тест-драйв</a></li>
+				<li><a href="#">Прайс-лист</a></li>
+				<li><a href="#">Контакты</a></li>
+			</ul>
+			<img id="site-creator-logo" src="knu.jpg">
+			<div id="site-creator"><u>Разработка сайта</u> —<br>компания «Програмна інженерія»</div>
+		</div>	
+	</div>
+	<div id="feedback-overlay" class="feedback">
+	</div>
+	<div id="feedback" class="feedback">
+		<div id="feedback-close" class="feedback"><img src="close.svg"></div>
+		<h1>ОБРАТНАЯ СВЯЗЬ</h1>
+		<form id="feedback-form">
+			<label for="name">Ваше имя *</label><br>
+			<input type="text" id="name" required name="name"><br>
+			<label for="phone">Телефон</label><br>
+			<input type="phone" id="phone" name="phone"><br>
+			<label for="email">Email *</label><br>
+			<input type="email" id="email" required name="email"><br>
+			<label for="message">Сообщение</label><br>
+			<textarea name="message"></textarea><br>
+			<button id="feedback-submit" type="submit">Отправить</button><br>
+		</form>
+	</div>
+</body>
+</html>
