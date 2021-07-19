@@ -22,3 +22,6 @@
 [submodule "semester6/crypto"]
 	path = semester6/crypto
 	url = https://github.com/gardenappl/uni-semester6-crypto
+[submodule "semester6/distributed"]
+	path = semester6/distributed
+	url = https://github.com/gardenappl/uni-semester6-distributed
