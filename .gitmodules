@@ -28,3 +28,6 @@
 [submodule "semester6/gfx"]
 	path = semester6/gfx
 	url = https://github.com/gardenappl/uni-semester6-cg
+[submodule "semester6/uni-semester6-oop"]
+	path = semester6/oop
+	url = https://github.com/gardenappl/uni-semester6-oop
