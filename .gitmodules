@@ -16,3 +16,6 @@
 [submodule "semester5/os/lab-1-3-4"]
 	path = semester5/os
 	url = https://github.com/gardenappl/os-labs
+[submodule "semester6/compilers"]
+	path = semester6/compilers
+	url = https://github.com/gardenappl/rust-lexer
