@@ -10,3 +10,6 @@
 [submodule "semester3/fund-oop/test1-democratic-world"]
 	path = semester3/fund-oop/test1-democratic-world
 	url = https://gitlab.com/gardenappl/uni2-oop-test1
+[submodule "semester4/oop/lab3a-parallel"]
+	path = semester4/oop/lab3a-parallel
+	url = https://gitlab.com/gardenappl/uni-s4-oop-lab3a
