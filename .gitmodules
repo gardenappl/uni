@@ -31,3 +31,6 @@
 [submodule "semester6/uni-semester6-oop"]
 	path = semester6/oop
 	url = https://github.com/gardenappl/uni-semester6-oop
+[submodule "semester5/oop"]
+	path = semester5/oop
+	url = https://github.com/gardenappl/uni-semester5-oop
