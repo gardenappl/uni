@@ -19,3 +19,6 @@
 [submodule "semester6/compilers"]
 	path = semester6/compilers
 	url = https://github.com/gardenappl/rust-lexer
+[submodule "semester6/crypto"]
+	path = semester6/crypto
+	url = https://github.com/gardenappl/uni-semester6-crypto
