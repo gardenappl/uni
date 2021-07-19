@@ -13,3 +13,6 @@
 [submodule "semester4/oop/lab3a-parallel"]
 	path = semester4/oop/lab3a-parallel
 	url = https://gitlab.com/gardenappl/uni-s4-oop-lab3a
+[submodule "semester5/os/lab-1-3-4"]
+	path = semester5/os
+	url = https://github.com/gardenappl/os-labs
