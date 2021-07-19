@@ -1,0 +1,9 @@
+[submodule "semester3/fund-oop/oop-lab1-queue-ip"]
+	path = semester3/fund-oop/lab1-queue-ip
+	url = https://github.com/gardenappl/oop-lab1-queue-ip
+[submodule "semester3/fund-oop/oop-lab2-notarius"]
+	path = semester3/fund-oop/lab2-notarius
+	url = https://github.com/gardenappl/oop-lab2-notarius.git
+[submodule "semester3/fund-oop/lab3-qutesweeper"]
+	path = semester3/fund-oop/lab3-qutesweeper
+	url = https://github.com/gardenappl/oop-lab3-qutesweeper
