@@ -7,3 +7,6 @@
 [submodule "semester3/fund-oop/lab3-qutesweeper"]
 	path = semester3/fund-oop/lab3-qutesweeper
 	url = https://github.com/gardenappl/oop-lab3-qutesweeper
+[submodule "semester3/fund-oop/test1-democratic-world"]
+	path = semester3/fund-oop/test1-democratic-world
+	url = https://gitlab.com/gardenappl/uni2-oop-test1
