@@ -25,3 +25,6 @@
 [submodule "semester6/distributed"]
 	path = semester6/distributed
 	url = https://github.com/gardenappl/uni-semester6-distributed
+[submodule "semester6/gfx"]
+	path = semester6/gfx
+	url = https://github.com/gardenappl/uni-semester6-cg
