@@ -38,25 +38,42 @@ std::string multiply_factors_to_string(std::map<uint32_t, uint32_t> factors) {
 			throw std::invalid_argument("Factor 0 is not allowed");
 
 		for (uint32_t n = 0; n < power; n++) {
+#ifdef DEBUG
 			std::cerr << "Multiply " << digit_vector_to_string(digits, true) << " by " << factor << std::endl;
+#endif
 			size_t current_max_digit = digits.size();
 
-			uint32_t carry = 0;
+			uint64_t carry = 0;
 			for (size_t i = 0; i < current_max_digit; i++) {
+#ifdef DEBUG
 				std::cerr << "Carry: " << carry << std::endl;
+#endif
 				uint64_t result = (uint64_t)digits[i] * factor + carry;
+#ifdef DEBUG
 				std::cerr << "Result: " << result << std::endl;
+#endif
 
 				digits[i] = result % MOD;
 				carry = result / MOD;
 			}
-			if (carry > 0) {
+
+			if (carry > MOD) {
+#ifdef DEBUG
+				std::cerr << "Final carry is larger than MOD: " << carry << std::endl;
+#endif
+				digits.push_back(carry % MOD);
+				digits.push_back(carry / MOD);
+			} else if (carry > 0) {
+#ifdef DEBUG
 				std::cerr << "Final carry: " << carry << std::endl;
+#endif
 				digits.push_back(carry);
 			}
 		}
 	}
+#ifdef DEBUG
 	std::cerr << "Done. Size: " << digits.size() << std::endl;
+#endif
 	return digit_vector_to_string(digits, false);
 }
 
