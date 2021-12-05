@@ -1,6 +1,6 @@
-VERSION = "0.4"
-
 from enum import Enum
+from math import comb, radians
+from os import pathconf
 import random
 
 
@@ -9,10 +9,24 @@ from pygame import Vector2
 from pygame.locals import *
 
 
-def lose():
-    pygame.display.set_caption("YOU LOSE")
-    global state
-    state = GameState.END
+
+class GameState(Enum):
+    DRAWING = 1,
+    PLAYING = 2,
+    END = 3
+
+
+class Game:
+    state = GameState.DRAWING
+    path = []
+    path_balls = []
+    shot_balls = []
+    player = None
+
+    @staticmethod
+    def lose():
+        pygame.display.set_caption("YOU LOSE")
+        Game.state = GameState.END
 
 
 class BallColor(Enum):
@@ -30,30 +44,27 @@ class Ball:
     def draw(self, surface):
         pygame.draw.circle(surface, self.color.value, self.pos, self.radius)
 
-    def touches(self, other):
+    def touches(self, other, radius_extra=0):
         if isinstance(other, Ball):
-            return (self.pos - other.pos).length_squared() < (self.radius + other.radius) ** 2
+            return (self.pos - other.pos).length_squared() < (self.radius + other.radius + radius_extra) ** 2
         elif isinstance(other, Vector2):
-            return (self.pos - other).length_squared() < self.radius ** 2
+            return (self.pos - other).length_squared() < (self.radius + radius_extra) ** 2
 
 
 class PathBall(Ball):
-    def __init__(self, color, path, path_balls, path_balls_index):
-        super().__init__(color, path[0])
-        self.path = path
-        self.path_index = 0
-
-        self.path_balls = path_balls
-        self.path_balls_index = path_balls_index
+    def __init__(self, color, pos, path_index=0):
+        super().__init__(color, pos)
+        self.path_index = path_index
+        self.dead = False
         self.velocity = None
 
     def _move_forward(self):
-        if self.path_index + 1 >= len(self.path):
-            lose()
+        if self.path_index + 1 >= len(Game.path):
+            Game.lose()
             return False
 
-        next_p = self.path[self.path_index + 1]
-        self.velocity = (next_p - self.pos).normalize()
+        next_p = Game.path[self.path_index + 1]
+        self.velocity = (next_p - self.pos).normalize() * 0.5
         self.pos += self.velocity
 
         if self.touches(next_p):
@@ -61,16 +72,46 @@ class PathBall(Ball):
         return True
 
     def update(self):
-        self._move_forward()
+        path_balls_index = Game.path_balls.index(self)
+        # Last ball always moves, other balls have to be pushed forward
+        if path_balls_index == len(Game.path_balls) - 1:
+            self._move_forward()
+        else:
+            prev_ball = Game.path_balls[path_balls_index + 1]
+            while self.touches(prev_ball):
+                if not self._move_forward():
+                    break
+
+            combo_balls = [self]
+            while self.color == prev_ball.color and combo_balls[len(combo_balls) - 1].touches(prev_ball, 2):
+                combo_balls.append(prev_ball)
+                prev_index = path_balls_index + len(combo_balls)
+                if prev_index == len(Game.path_balls):
+                    break
+                prev_ball = Game.path_balls[prev_index]
+
+            if len(combo_balls) >= 3:
+                for ball in combo_balls:
+                    ball.dead = True
+                
 
 
 class ShootBall(Ball):
     def __init__(self, color, pos, velocity):
         super().__init__(color, pos)
         self.velocity = velocity
+        self.dead = False
 
     def update(self):
         self.pos += self.velocity
+        i = 0
+        for ball in Game.path_balls:
+            i += 1
+            if self.touches(ball):
+                Game.path_balls.insert(i, PathBall(self.color, ball.pos + ball.velocity, ball.path_index))
+                self.dead = True
+                break
+                
 
 
 class Player():
@@ -94,12 +135,6 @@ class Player():
         pygame.draw.polygon(surface, self.color.value, triangle)
 
 
-class GameState(Enum):
-    DRAWING = 1,
-    PLAYING = 2,
-    END = 3
-
-
 def main():
     # Initialise screen
     pygame.init()
@@ -111,17 +146,10 @@ def main():
     background = background.convert()
     background.fill((255, 255, 255))
 
-
-    global state
-    state = GameState.DRAWING
-
-    path = []
-    path_balls = []
-    shot_balls = []
-    player = None
-
     # Initialise clock
     clock = pygame.time.Clock()
+
+    balls_spawned = 0
 
     # Event loop
     ticks = 0
@@ -137,60 +165,64 @@ def main():
             if event.type == QUIT:
                 return
             elif event.type == MOUSEMOTION:
-                if state == GameState.DRAWING:
+                if Game.state == GameState.DRAWING:
                     if event.buttons[0] == 1:
                         # LMB pressed, drawing path
-                        path.append(Vector2(event.pos))
-                    elif path:
+                        Game.path.append(Vector2(event.pos))
+                    elif Game.path:
                         # Let go of LMB, path was drawn
-                        state = GameState.PLAYING
+                        Game.state = GameState.PLAYING
                         
-                        print(path)
+                        print(Game.path)
             elif event.type == MOUSEBUTTONDOWN:
                 mouse_down = True
 
         screen.blit(background, (0, 0))
 
-        for p in path:
+        for p in Game.path:
             pygame.draw.circle(screen, (200, 200, 200), p, 5)
 
-        if state == GameState.PLAYING:
-            if player == None:
-                player = Player(BallColor.GREEN, Vector2(screen.get_size()) / 2)
+        if Game.state == GameState.PLAYING:
+            if Game.player == None:
+                Game.player = Player(BallColor.GREEN, Vector2(screen.get_size()) / 2)
+            player = Game.player
             player.update()
 
             if mouse_down:
                 shoot_velocity = Vector2()
-                shoot_velocity.from_polar((2, player.rotation))
-                shot_balls.append(ShootBall(player.color, player.pos, shoot_velocity))
+                shoot_velocity.from_polar((5, player.rotation))
+                Game.shot_balls.append(ShootBall(player.color, player.pos, shoot_velocity))
 
                 player.color = random.choice(list(BallColor))
-            for b in shot_balls:
+            for b in Game.shot_balls:
                 b.update()
 
-            if ticks % 20 == 0:
-                path_balls.append(PathBall(BallColor.BLUE, path, path_balls, len(path_balls)))
-            for b in path_balls:
+            if ticks % 40 == 0:
+                balls_spawned += 1
+                if balls_spawned < 50:
+                    Game.path_balls.append(PathBall(random.choice(list(BallColor)), Game.path[0]))
+            for b in Game.path_balls:
                 b.update()
+
+            # Remove 'dead' balls
+            alive_balls = [b for b in Game.shot_balls if not b.dead]
+            Game.shot_balls.clear()
+            Game.shot_balls.extend(alive_balls)
+
+            alive_balls = [b for b in Game.path_balls if not b.dead]
+            Game.path_balls.clear()
+            Game.path_balls.extend(alive_balls)
 
             
-        if player:
-            player.draw(screen)
+        if Game.player:
+            Game.player.draw(screen)
 
-        for b in shot_balls:
+        for b in Game.shot_balls:
             b.draw(screen)
 
-        for b in path_balls:
+        for b in Game.path_balls:
             b.draw(screen)
 
-
-#        screen.blit(background, ball.rect, ball.rect)
-#        screen.blit(background, player1.rect, player1.rect)
-#        screen.blit(background, player2.rect, player2.rect)
-#        ballsprite.update()
-#        playersprites.update()
-#        ballsprite.draw(screen)
-#        playersprites.draw(screen)
         pygame.display.flip()
 
 
