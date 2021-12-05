@@ -56,7 +56,7 @@ class PathBall(Ball):
         super().__init__(color, pos)
         self.path_index = path_index
         self.dead = False
-        self.velocity = None
+        self.velocity = Vector2()
 
     def _move_forward(self):
         if self.path_index + 1 >= len(Game.path):
@@ -111,11 +111,19 @@ class ShootBall(Ball):
         self.pos += self.velocity
         i = 0
         for ball in Game.path_balls:
-            i += 1
             if self.touches(ball):
-                Game.path_balls.insert(i, PathBall(self.color, ball.pos + ball.velocity, ball.path_index))
+                # Did we land in front of the ball?
+                angle = ball.velocity.angle_to(self.pos - ball.pos)
+                print(angle)
+                if angle > 90 or angle < -90:
+                    print("back")
+                    Game.path_balls.insert(i + 1, PathBall(self.color, ball.pos, ball.path_index))
+                else:
+                    print("front")
+                    Game.path_balls.insert(i, PathBall(self.color, ball.pos + ball.velocity, ball.path_index))
                 self.dead = True
                 break
+            i += 1
                 
 
 
