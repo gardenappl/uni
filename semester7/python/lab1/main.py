@@ -92,18 +92,28 @@ class PathBall(Ball):
                 if not self._move_forward():
                     break
 
-            combo_balls = [self]
-            while self.color == prev_ball.color and combo_balls[len(combo_balls) - 1].touches(prev_ball, 2):
-                combo_balls.append(prev_ball)
-                prev_index = path_balls_index + len(combo_balls)
-                if prev_index == len(Game.path_balls):
-                    break
-                prev_ball = Game.path_balls[prev_index]
+            # First ball checks for combo
+            if path_balls_index == 0 or Game.path_balls[path_balls_index - 1].color != self.color:
+                combo_balls = [self]
+                while self.color == prev_ball.color:
+                    combo_balls.append(prev_ball)
+                    prev_index = path_balls_index + len(combo_balls)
+                    if prev_index == len(Game.path_balls):
+                        break
+                    prev_ball = Game.path_balls[prev_index]
 
-            if len(combo_balls) >= 3:
-                for ball in combo_balls:
-                    ball.dead = True
-                
+                if len(combo_balls) >= 3:
+                    # Do combo as soon as all combo balls touch each other
+                    all_touch = True
+                    i = 1
+                    while i < len(combo_balls):
+                        if not combo_balls[i].touches(combo_balls[i - 1], 2):
+                            all_touch = False
+                            break
+                        i += 1
+                    if all_touch:
+                        for ball in combo_balls: 
+                            ball.dead = True
 
 
 class ShootBall(Ball):
