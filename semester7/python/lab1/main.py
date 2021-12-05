@@ -28,6 +28,11 @@ class Game:
         pygame.display.set_caption("YOU LOSE")
         Game.state = GameState.END
 
+    @staticmethod
+    def win():
+        pygame.display.set_caption("YOU WON")
+        Game.state = GameState.END
+
 
 class BallColor(Enum):
     RED = (255, 100, 100),
@@ -116,10 +121,10 @@ class ShootBall(Ball):
                 angle = ball.velocity.angle_to(self.pos - ball.pos)
                 print(angle)
                 if angle > 90 or angle < -90:
-                    print("back")
+                    #print("back")
                     Game.path_balls.insert(i + 1, PathBall(self.color, ball.pos, ball.path_index))
                 else:
-                    print("front")
+                    #print("front")
                     Game.path_balls.insert(i, PathBall(self.color, ball.pos + ball.velocity, ball.path_index))
                 self.dead = True
                 break
@@ -214,8 +219,8 @@ def main():
                 b.update()
 
             if ticks % 40 == 0:
-                balls_spawned += 1
                 if balls_spawned < MAX_BALLS_SPAWN:
+                    balls_spawned += 1
                     Game.path_balls.append(PathBall(random.choice(list(BallColor)), Game.path[0]))
             for b in Game.path_balls:
                 b.update()
@@ -228,6 +233,9 @@ def main():
             alive_balls = [b for b in Game.path_balls if not b.dead]
             Game.path_balls.clear()
             Game.path_balls.extend(alive_balls)
+
+            if balls_spawned >= MAX_BALLS_SPAWN and len(Game.path_balls) == 0:
+                Game.win()
 
             
         if Game.player:
