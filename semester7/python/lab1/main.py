@@ -78,7 +78,12 @@ class PathBall(Ball):
             self._move_forward()
         else:
             prev_ball = Game.path_balls[path_balls_index + 1]
+            # Up to 5 extra moves in case of push
+            i = 0
             while self.touches(prev_ball):
+                if i >= 5:
+                    break
+                i += 1
                 if not self._move_forward():
                     break
 
@@ -150,6 +155,7 @@ def main():
     clock = pygame.time.Clock()
 
     balls_spawned = 0
+    MAX_BALLS_SPAWN = 50
 
     # Event loop
     ticks = 0
@@ -172,8 +178,6 @@ def main():
                     elif Game.path:
                         # Let go of LMB, path was drawn
                         Game.state = GameState.PLAYING
-                        
-                        print(Game.path)
             elif event.type == MOUSEBUTTONDOWN:
                 mouse_down = True
 
@@ -193,13 +197,17 @@ def main():
                 shoot_velocity.from_polar((5, player.rotation))
                 Game.shot_balls.append(ShootBall(player.color, player.pos, shoot_velocity))
 
-                player.color = random.choice(list(BallColor))
+                if len(Game.path_balls) > 10 or balls_spawned < MAX_BALLS_SPAWN:
+                    possible_colors = list(BallColor)
+                else:
+                    possible_colors = [ball.color for ball in Game.path_balls]
+                player.color = random.choice(possible_colors)
             for b in Game.shot_balls:
                 b.update()
 
             if ticks % 40 == 0:
                 balls_spawned += 1
-                if balls_spawned < 50:
+                if balls_spawned < MAX_BALLS_SPAWN:
                     Game.path_balls.append(PathBall(random.choice(list(BallColor)), Game.path[0]))
             for b in Game.path_balls:
                 b.update()
