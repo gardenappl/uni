@@ -167,6 +167,7 @@ def main():
     # Initialise clock
     clock = pygame.time.Clock()
 
+    last_colors = [BallColor.RED, BallColor.BLUE]
     balls_spawned = 0
     MAX_BALLS_SPAWN = 50
 
@@ -210,18 +211,21 @@ def main():
                 shoot_velocity.from_polar((5, player.rotation))
                 Game.shot_balls.append(ShootBall(player.color, player.pos, shoot_velocity))
 
-                if len(Game.path_balls) > 10 or balls_spawned < MAX_BALLS_SPAWN:
-                    possible_colors = list(BallColor)
-                else:
-                    possible_colors = [ball.color for ball in Game.path_balls]
-                player.color = random.choice(possible_colors)
+                player.color = random.choice(list(BallColor))
             for b in Game.shot_balls:
                 b.update()
 
             if ticks % 40 == 0:
                 if balls_spawned < MAX_BALLS_SPAWN:
                     balls_spawned += 1
-                    Game.path_balls.append(PathBall(random.choice(list(BallColor)), Game.path[0]))
+
+                    # Make sure color does not match previous 2 colors
+                    color = random.choice(list(BallColor))
+                    while color == last_colors[0] and color == last_colors[1]:
+                        color = random.choice(list(BallColor))
+                    last_colors.append(color)
+                    last_colors.pop(0)
+                    Game.path_balls.append(PathBall(color, Game.path[0]))
             for b in Game.path_balls:
                 b.update()
 
