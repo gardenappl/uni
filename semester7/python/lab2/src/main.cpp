@@ -43,7 +43,7 @@ std::string multiply_factors_to_string(std::map<uint32_t, uint32_t> factors) {
 #endif
 			size_t current_max_digit = digits.size();
 
-			uint64_t carry = 0;
+			uint32_t carry = 0;
 			for (size_t i = 0; i < current_max_digit; i++) {
 #ifdef DEBUG
 				std::cerr << "Carry: " << carry << std::endl;

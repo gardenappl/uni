@@ -13,6 +13,8 @@ class TestCase(unittest.TestCase):
         self.assertEqual(m.multiply_factors_to_string({9000000:2, 10:3}), '81000000000000000')
         self.assertEqual(m.multiply_factors_to_string({2:51, 3:4, 5:100}), str(2**51 * 3**4 * 5**100))
         self.assertEqual(m.multiply_factors_to_string({999999999:10}), str(999999999**10))
+        self.assertEqual(m.multiply_factors_to_string({999999999:1, 4294967295:2}), str(999999999 * 4294967295**2))
+        self.assertEqual(m.multiply_factors_to_string({999999999:2, 4294967295:10}), str(999999999**2 * 4294967295**10))
         self.assertEqual(m.multiply_factors_to_string({999999999:100, 4294967295:100}), str(999999999**100 * 4294967295**100))
 
     def test_invalid_args(self):
