@@ -93,7 +93,7 @@ class PathBall(Ball):
             # First ball checks for combo
             if path_balls_index == 0 or Game.path_balls[path_balls_index - 1].color != self.color:
                 combo_balls = [self]
-                while self.color == prev_ball.color:
+                while self.color == prev_ball.color and prev_ball.touches(combo_balls[-1], 2):
                     combo_balls.append(prev_ball)
                     prev_index = path_balls_index + len(combo_balls)
                     if prev_index == len(Game.path_balls):
@@ -101,17 +101,8 @@ class PathBall(Ball):
                     prev_ball = Game.path_balls[prev_index]
 
                 if len(combo_balls) >= 3:
-                    # Do combo as soon as all combo balls touch each other
-                    all_touch = True
-                    i = 1
-                    while i < len(combo_balls):
-                        if not combo_balls[i].touches(combo_balls[i - 1], 2):
-                            all_touch = False
-                            break
-                        i += 1
-                    if all_touch:
-                        for ball in combo_balls: 
-                            ball.dead = True
+                    for ball in combo_balls: 
+                        ball.dead = True
 
 
 class ShootBall(Ball):
@@ -127,7 +118,6 @@ class ShootBall(Ball):
             if self.touches(ball):
                 # Did we land in front of the ball?
                 angle = ball.velocity.angle_to(self.pos - ball.pos)
-                print(angle)
                 if angle > 90 or angle < -90:
                     #print("back")
                     Game.path_balls.insert(i + 1, PathBall(self.color, ball.pos, ball.path_index))
@@ -177,7 +167,7 @@ def main():
 
     last_colors = [BallColor.RED, BallColor.BLUE]
     balls_spawned = 0
-    MAX_BALLS_SPAWN = 50
+    MAX_BALLS_SPAWN = 25
 
     # Event loop
     ticks = 0
