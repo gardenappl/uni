@@ -1,17 +1,18 @@
+import Control.Concurrent
+import Control.DeepSeq (($!!))
 import Data.Bifunctor
-import Data.Bits
 import Data.Binary.Get
 import Data.Binary.Put
+import Data.Bits
 import qualified Data.ByteString.Lazy as B
 import Data.Char
+import Data.Function (on)
 import Data.List
 import qualified Data.Map as Map
 import Data.Maybe
-import Data.Function (on)
 import Data.Word
 import System.Environment
 import System.IO
-import Control.DeepSeq (($!!))
 
 type Symbol = Char
 
@@ -79,9 +80,12 @@ encode' codeTree (Interior l r _ _) (sym : symbols)
 encode tree = encode' tree tree
 
 
--- First pass: get all symbols in file and their weights, as list
+
+data FileArchivalMeta = FileArchivalMeta { fileName :: String, weights :: [Node], tree :: Node, encodedLength :: Int }
+
+-- Get all symbols in file and their weights, as list
 scanFile :: FilePath -> IO [(Char, Int)]
-scanFile path = withFile path ReadMode (\handle -> do
+scanFile path = withBinaryFile path ReadMode (\handle -> do
   contents <- hGetContents handle
   -- lazy IO, must force reading the whole file with $!!
   return $!! Map.toList (Map.fromListWith (+) (map (\x -> (x, 1)) contents)))
@@ -89,47 +93,80 @@ scanFile path = withFile path ReadMode (\handle -> do
 toNodes :: [(Char, Int)] -> [Node]
 toNodes symWeights = sortBy (compare `on` weight) (map (uncurry Leaf) symWeights)
 
-hPutWord32le :: (Integral n) => Handle -> n -> IO ()
-hPutWord32le handle n = B.hPut handle (runPut (putWord32le (fromIntegral n)))
 
-encodeFilesSync' :: Handle -> [FilePath] -> IO ()
-encodeFilesSync' _ [] = return ()
-encodeFilesSync' handle (filePath:files) = do
+-- First pass for reading file
+doFirstPass :: FilePath -> IO FileArchivalMeta
+doFirstPass filePath = do
   symWeights <- scanFile filePath
-  putStrLn filePath
+  -- putStrLn filePath
   let nodes = toNodes symWeights
-  print nodes
+  -- print nodes
   let tree = makeTree nodes
-  print (getAllEncodings tree)
+  -- print (getAllEncodings tree)
   let treeDepths = getTreeDepths tree
 
-  encodeName handle filePath
-  encodeNodes handle nodes
+  let encodedLength = getEncodedLength treeDepths symWeights
+  return (FileArchivalMeta filePath nodes tree encodedLength)
 
-  let fileLength = getEncodedLength treeDepths symWeights
-  hPutWord32le handle fileLength
+-- Second pass: read file, encode and append to archive
+doSecondPass :: Handle -> FileArchivalMeta -> IO ()
+doSecondPass archiveHandle (FileArchivalMeta fileName weights tree encodedLength) = do
+  putStr "Writing: "
+  putStrLn fileName
+  encodeName archiveHandle fileName
+  encodeNodes archiveHandle weights
+  hPutWord32le archiveHandle encodedLength
 
-  encoded <- withFile filePath ReadMode (\handle -> do
+  encoded <- withBinaryFile fileName ReadMode (\handle -> do
     contents <- hGetContents handle
     return $!! encode tree contents)
-  B.hPut handle (B.pack (boolsToWords encoded))
-  encodeFilesSync' handle files 
+  B.hPut archiveHandle (B.pack (boolsToWords encoded))
+  
 
-encodeFilesSync :: FilePath -> [FilePath] -> IO ()
-encodeFilesSync archivePath files = withBinaryFile archivePath WriteMode (\handle ->
-  encodeFilesSync' handle files)
+encodeFilesSeq' :: Handle -> [FilePath] -> IO ()
+encodeFilesSeq' _ [] = return ()
+encodeFilesSeq' handle (filePath:files) = do
+  putStr "Scanning "
+  putStrLn filePath
+  meta@(FileArchivalMeta name weights tree length) <- doFirstPass filePath
+
+  doSecondPass handle meta
+  encodeFilesSeq' handle files
+
+encodeFilesSeq :: FilePath -> [FilePath] -> IO ()
+encodeFilesSeq archivePath files = withBinaryFile archivePath WriteMode (\handle ->
+  encodeFilesSeq' handle files)
+
+
+encodeFilesPar :: FilePath -> [FilePath] -> IO ()
+encodeFilesPar archivePath files = withBinaryFile archivePath WriteMode (\handle -> do
+  chan <- newChan
+
+  -- do first passes for each file
+  mapM_ (\fileName -> forkIO (do 
+    fileArchivalMeta <- doFirstPass fileName
+    writeChan chan fileArchivalMeta
+    )) files
+
+  chanContents <- getChanContents chan
+  let fileMetas = take (length files) chanContents
+
+  mapM_ (\(FileArchivalMeta name _ _ _) -> do
+    putStr "Scanned "
+    putStrLn name) fileMetas
+  mapM_ (doSecondPass handle) fileMetas)
+  
 
 
 decodeFiles' :: [Word8] -> IO ()
 decodeFiles' [] = return ()
 decodeFiles' words = do
   let (name, nodeBytes) = decodeName words
-  putStr "Name: "
+  putStr "Decoding: "
   putStrLn name
   let (nodes, fileBytes) = decodeNodes nodeBytes
-  print nodes
   let tree = makeTree nodes
-  print (getAllEncodings tree)
+  -- print (getAllEncodings tree)
   let (file, rest) = decodeSingleFile fileBytes tree
   writeFile name file
   decodeFiles' rest
@@ -150,7 +187,10 @@ main = do
   (command:args) <- getArgs
   if command == "encode" then do
     let (archiveName:fileNames) = args
-    encodeFilesSync archiveName fileNames
+    encodeFilesSeq archiveName fileNames
+  else if command == "encode-par" then do
+    let (archiveName:fileNames) = args
+    encodeFilesPar archiveName fileNames
   else if command == "decode" then do
     let (archiveName:_) = args
     decodeFiles archiveName
@@ -209,6 +249,9 @@ packBytes w1 w2 w3 w4 = toInt w4 `shiftL` 24 +
                         toInt w3 `shiftL` 16 + 
                         toInt w2 `shiftL` 8 + 
                         toInt w1
+
+hPutWord32le :: (Integral n) => Handle -> n -> IO ()
+hPutWord32le handle n = B.hPut handle (runPut (putWord32le (fromIntegral n)))
 
 boolsToWords :: [Bool] -> [Word8]
 boolsToWords (b1:b2:b3:b4:b5:b6:b7:b8:bs) = packBools' [b1,b2,b3,b4,b5,b6,b7,b8] 0 0 : boolsToWords bs

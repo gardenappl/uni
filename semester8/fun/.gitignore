@@ -1,4 +1,7 @@
 lab2
 *.o
 *.hi
-*.txt*
+*.txt
+
+# my own "Haskell Archive" format
+*.ha
