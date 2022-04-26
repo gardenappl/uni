@@ -14,7 +14,7 @@ import Data.Word
 import System.Environment
 import System.IO
 
-type Symbol = Char
+type Symbol = Word8
 
 type Weight = Int
 
@@ -66,7 +66,8 @@ decode' codeTree (Interior _ r _ _) (True : bits) =
   decode' codeTree r bits
 decode' _ _ [] = []
 
-decode tree = decode' tree tree
+decode :: Node -> [Bool] -> B.ByteString
+decode tree bits = B.pack (decode' tree tree bits)
 
 -- Encode symbols into bool list based on tree
 encode' :: Node -> Node -> [Symbol] -> [Bool]
@@ -77,20 +78,21 @@ encode' codeTree (Interior l r _ _) (sym : symbols)
   | sym `elem` getSymbols l = False : encode' codeTree l (sym : symbols)
   | otherwise = True : encode' codeTree r (sym : symbols)
 
-encode tree = encode' tree tree
+encode :: Node -> B.ByteString -> [Bool]
+encode tree str = encode' tree tree (B.unpack str)
 
 
 
 data FileArchivalMeta = FileArchivalMeta { fileName :: String, weights :: [Node], tree :: Node, encodedLength :: Int }
 
 -- Get all symbols in file and their weights, as list
-scanFile :: FilePath -> IO [(Char, Int)]
+scanFile :: FilePath -> IO [(Word8, Int)]
 scanFile path = withBinaryFile path ReadMode (\handle -> do
-  contents <- hGetContents handle
+  contents <- B.hGetContents handle
   -- lazy IO, must force reading the whole file with $!!
-  return $!! Map.toList (Map.fromListWith (+) (map (\x -> (x, 1)) contents)))
+  return $!! Map.toList (Map.fromListWith (+) (map (\x -> (x, 1)) (B.unpack contents))))
 
-toNodes :: [(Char, Int)] -> [Node]
+toNodes :: [(Word8, Int)] -> [Node]
 toNodes symWeights = sortBy (compare `on` weight) (map (uncurry Leaf) symWeights)
 
 
@@ -118,7 +120,7 @@ doSecondPass archiveHandle (FileArchivalMeta fileName weights tree encodedLength
   hPutWord32le archiveHandle encodedLength
 
   encoded <- withBinaryFile fileName ReadMode (\handle -> do
-    contents <- hGetContents handle
+    contents <- B.hGetContents handle
     return $!! encode tree contents)
   B.hPut archiveHandle (B.pack (boolsToWords encoded))
   
@@ -170,7 +172,7 @@ decodeFiles' words = do
   let tree = makeTree nodes
   -- print (getAllEncodings tree)
   let (file, rest) = decodeSingleFile fileBytes tree
-  writeFile name file
+  B.writeFile name file
   decodeFiles' rest
 
 
@@ -181,9 +183,6 @@ decodeFiles path = do
     let words = B.unpack contents
     decodeFiles' words)
 
-
-divCeil :: (Integral a) => a -> a -> a
-divCeil a b = a `div` b + (if a `mod` b > 0 then 1 else 0)
 
 main = do
   (command:args) <- getArgs
@@ -199,6 +198,7 @@ main = do
   else
     putStrLn "Unknown command."
 
+
 -- get depths of all symbols in tree, with current level
 getTreeDepths' :: Node -> Int -> [(Symbol, Int)]
 getTreeDepths' (Interior l r _ _) n = getTreeDepths' l (n+1) ++ getTreeDepths' r (n+1)
@@ -213,13 +213,13 @@ getAllEncodings' (Leaf sym _) current = [(sym, current)]
 getAllEncodings' (Interior l r _ _) current = getAllEncodings' l (False : current) ++ getAllEncodings' r (True : current)
 
 getAllEncodings :: Node -> [(Symbol, [Bool])]
-getAllEncodings tree = map (\(sym, path) -> (sym, reverse path)) (getAllEncodings' tree [])
+getAllEncodings tree = map (second reverse) (getAllEncodings' tree [])
 
 
 -- get length of encoded file knowing each char's count and bit length
-getEncodedLength :: Map.Map Symbol Int -> [(Char, Int)] -> Int
+getEncodedLength :: Map.Map Symbol Int -> [(Word8, Int)] -> Int
 getEncodedLength treeDepths symWeights = foldl 
-  (\acc symWeight -> acc + (snd symWeight * (fromMaybe 0 (Map.lookup (fst symWeight) treeDepths))))
+  (\acc symWeight -> acc + (snd symWeight * fromMaybe 0 (Map.lookup (fst symWeight) treeDepths)))
   0 
   symWeights
 
@@ -269,7 +269,7 @@ wordsToBools' list@(b:bs) left bitnum
   | otherwise   = first ((((b `shiftR` (7 - bitnum)) `mod` 2) == 1) :) (wordsToBools' list (left - 1) (bitnum + 1))
 wordsToBools list left = wordsToBools' list left 0
 
-decodeSingleFile :: [Word8] -> Node -> ([Symbol], [Word8])
+decodeSingleFile :: [Word8] -> Node -> (B.ByteString, [Word8])
 decodeSingleFile (w1:w2:w3:w4:file) tree = do
   let length = packBytes w1 w2 w3 w4
   let (encoded, rest) = wordsToBools file length
@@ -279,7 +279,7 @@ decodeSingleFile (w1:w2:w3:w4:file) tree = do
 encodeNodes' :: Handle -> [Node] -> IO ()
 encodeNodes' handle [] = return ()
 encodeNodes' handle ((Leaf sym weight) : nodes) = do
-  hPutChar handle sym
+  B.hPutStr handle (B.singleton sym)
   hPutWord32le handle weight
   encodeNodes' handle nodes
 
@@ -291,7 +291,7 @@ encodeNodes handle nodes = do
 decodeNodes' :: [Word8] -> [Node] -> Int -> ([Node], [Word8])
 decodeNodes' rest nodes 0 = (nodes, rest)
 decodeNodes' (sym:w1:w2:w3:w4:rest) nodes n = 
-  decodeNodes' rest (Leaf (chr (fromIntegral sym)) (packBytes w1 w2 w3 w4) : nodes) (n - 1)
+  decodeNodes' rest (Leaf sym (packBytes w1 w2 w3 w4) : nodes) (n - 1)
   
 decodeNodes :: [Word8] -> ([Node], [Word8])
 decodeNodes (w1:w2:w3:w4:ws) = first reverse (decodeNodes' ws [] (packBytes w1 w2 w3 w4))
