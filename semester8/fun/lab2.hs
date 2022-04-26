@@ -48,12 +48,7 @@ orderedInsert n nodes = insertBy (compare `on` weight) n nodes
 makeTree :: [Node] -> Node
 makeTree [n] = n
 makeTree (first : second : rest) =
-  let n =
-        Interior
-          first
-          second
-          (getSymbols first ++ getSymbols second)
-          (getWeight first + getWeight second)
+  let n = Interior first second (getSymbols first ++ getSymbols second) (getWeight first + getWeight second)
    in makeTree (orderedInsert n rest)
 
 -- Decode bool list based on tree
@@ -76,7 +71,7 @@ encode' codeTree (Leaf s w) (sym : symbols) =
   encode' codeTree codeTree symbols
 encode' codeTree (Interior l r _ _) (sym : symbols)
   | sym `elem` getSymbols l = False : encode' codeTree l (sym : symbols)
-  | otherwise = True : encode' codeTree r (sym : symbols)
+  | otherwise               = True : encode' codeTree r (sym : symbols)
 
 encode :: Node -> B.ByteString -> [Bool]
 encode tree str = encode' tree tree (B.unpack str)
