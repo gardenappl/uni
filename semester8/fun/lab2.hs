@@ -144,17 +144,19 @@ encodeFilesPar archivePath files = withBinaryFile archivePath WriteMode (\handle
 
   -- do first passes for each file
   mapM_ (\fileName -> forkIO (do 
-    fileArchivalMeta <- doFirstPass fileName
+    fileArchivalMeta@(FileArchivalMeta name _ _ _) <- doFirstPass fileName
     writeChan chan fileArchivalMeta
+    putStr "Scanned "
+    putStrLn name
     )) files
 
   chanContents <- getChanContents chan
   let fileMetas = take (length files) chanContents
 
-  mapM_ (\(FileArchivalMeta name _ _ _) -> do
-    putStr "Scanned "
-    putStrLn name) fileMetas
-  mapM_ (doSecondPass handle) fileMetas)
+  mapM_ (\meta@(FileArchivalMeta name _ _ _) -> do
+    doSecondPass handle meta
+    putStr "Wrote "
+    putStrLn name) fileMetas)
   
 
 
