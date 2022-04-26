@@ -187,13 +187,13 @@ divCeil a b = a `div` b + (if a `mod` b > 0 then 1 else 0)
 
 main = do
   (command:args) <- getArgs
-  if command == "encode" then do
+  if command == "create" then do
     let (archiveName:fileNames) = args
     encodeFilesSeq archiveName fileNames
-  else if command == "encode-par" then do
+  else if command == "create-par" then do
     let (archiveName:fileNames) = args
     encodeFilesPar archiveName fileNames
-  else if command == "decode" then do
+  else if command == "extract" then do
     let (archiveName:_) = args
     decodeFiles archiveName
   else
