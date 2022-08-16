@@ -8,6 +8,10 @@
 
 ## Implementation
 
+I knew nothing about Haskell for the entire semester, then in 2 days I read about halfway through *Learn You a Haskell* (I did not reach the chapter on monads), and on the 3rd day I wrote this.
+
+It works, but that's all I can say.
+
 ### Compile
 ```sh
 ghc --make -threaded -dynamic lab2.hs
