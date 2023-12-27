@@ -1,8 +1,8 @@
 *.workspace
 *.layout
-**/bin/*
-**/obj/*
-**/out/*
+**/bin/
+**/obj/
+**/out/
 **/*.depend
 */.directory
 .directory
@@ -13,3 +13,5 @@ TempProjects/
 **/.vs/
 **/*.zip
 **/* (Security copy)
+**/.env/
+**/__pycache__/
