@@ -6,12 +6,8 @@
 **/*.depend
 */.directory
 .directory
-*/Test/
-TempProjects/
 **/.~lock*
 **/CMakeLists.txt.user
 **/.vs/
 **/*.zip
 **/* (Security copy)
-**/.env/
-**/__pycache__/
