@@ -34,3 +34,6 @@
 [submodule "semester5/oop"]
 	path = semester5/oop
 	url = https://github.com/gardenappl/uni-semester5-oop
+[submodule "semesterm4/ml/lab2-rllib"]
+	path = semesterm4/ml/lab2-rllib
+	url = https://github.com/gardenappl/uni-msc4-ml-rllib
