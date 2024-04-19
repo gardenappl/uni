@@ -18,10 +18,9 @@ import os
 import sys
 
 
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardRemove, ForceReply, Update
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update, ForceReply
 from telegram.ext import (
         Application,
-        CallbackQueryHandler,
         CommandHandler,
         ContextTypes,
         MessageHandler,
@@ -54,43 +53,36 @@ logger = logging.getLogger(__name__)
 
 async def select_from(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     reply = "Вітаю! Оберіть мову, з якої будете перекладати"
-    keyboard = list(divide_chunks([InlineKeyboardButton(code, callback_data=code) for code in from_codes], 3))
-    await update.message.reply_html(reply, reply_markup=InlineKeyboardMarkup(keyboard))
+    keyboard = list(divide_chunks(from_codes, 3))
+    await update.message.reply_html(reply, reply_markup=ReplyKeyboardMarkup(keyboard))
     return SELECT_FROM
 
 
 async def select_from_sorry(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    query = update.callback_query
-    await query.answer()
-
     reply = "Оберіть мову, з якої будете перекладати"
-    keyboard = list(divide_chunks([InlineKeyboardButton(code, callback_data=code) for code in from_codes], 3))
-    await query.edit_message_text(reply, reply_markup=InlineKeyboardMarkup(keyboard))
+    keyboard = list(divide_chunks(from_codes, 3))
+    await update.message.reply_html(reply, reply_markup=ReplyKeyboardMarkup(keyboard))
     return SELECT_FROM
 
 
 async def select_to(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    query = update.callback_query
-    await query.answer()
+    context.user_data["from"] = update.message.text
 
-    context.user_data["from"] = query.data
-
-    keyboard = list(divide_chunks([InlineKeyboardButton(code, callback_data=code) for code in to_codes], 3))
-    await query.edit_message_text(
+    keyboard = list(divide_chunks(to_codes, 3))
+    await update.message.reply_html(
             "Оберіть мову, на яку будете перекладати",
-            reply_markup=InlineKeyboardMarkup(keyboard))
+            reply_markup=ReplyKeyboardMarkup(keyboard))
     return SELECT_TO
 
 
 async def ready(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    query = update.callback_query
-    await query.answer()
-
-    context.user_data["to"] = query.data
+    context.user_data["to"] = update.message.text
 
     from_code = context.user_data["from"]
     to_code = context.user_data["to"]
-    await query.edit_message_text(text="Готовий перекладати з {} на {}!".format(from_code, to_code))
+    await update.message.reply_html(
+            "Готовий перекладати з {} на {}!".format(from_code, to_code),
+            reply_markup=ReplyKeyboardRemove())
     return READY
 
 
@@ -108,7 +100,7 @@ async def translate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Translate
     translatedText = argostranslate.translate.translate(update.message.text, from_code, to_code)
     logger.info("Translated: %s", translatedText)
-    await update.message.reply_text(translatedText)
+    await update.message.reply_text(translatedText, quote=True)
 
 
 def main() -> None:
@@ -158,12 +150,12 @@ def main() -> None:
         entry_points=[CommandHandler("start", select_from)],
         states={
             SELECT_FROM: [
-                CallbackQueryHandler(select_to, pattern=(lambda code: code in from_codes)),
-                CallbackQueryHandler(select_from_sorry, pattern=(lambda code: code not in from_codes)),
+                MessageHandler(filters.Text(from_codes), select_to),
+                MessageHandler(~filters.Text(from_codes), select_from_sorry)
             ],
             SELECT_TO: [
-                CallbackQueryHandler(ready, pattern=(lambda code: code in to_codes)),
-                CallbackQueryHandler(select_to, pattern=(lambda code: code not in to_codes)),
+                MessageHandler(filters.Text(to_codes), ready),
+                MessageHandler(~filters.Text(to_codes), select_to)
             ],
             READY: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, translate)
