@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-# pylint: disable=unused-argument
-# This program is dedicated to the public domain under the CC0 license.
+#type: ignore
 
 """
 Simple Bot to translate Telegram messages.
@@ -19,19 +18,28 @@ import os
 import sys
 
 
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply, Update
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardRemove, ForceReply, Update
 from telegram.ext import (
-        Application, 
-        CommandHandler, 
-        ContextTypes, 
-        MessageHandler, 
-        filters, 
+        Application,
+        CallbackQueryHandler,
+        CommandHandler,
+        ContextTypes,
+        MessageHandler,
+        filters,
         ConversationHandler
     )
 
 
-from_code = "en"
-to_code = "uk"
+def divide_chunks(list, n): 
+    for i in range(0, len(list), n):  
+        yield list[i:i + n] 
+
+
+# Language codes, populated at runtime
+from_codes = []
+to_codes = []
+# Telegram conversation states
+SELECT_FROM, SELECT_TO, READY = range(3)
 
 
 # Enable logging
@@ -40,24 +48,54 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 
-# set higher logging level for httpx to avoid all GET and POST requests being logged
+# Set higher logging level for httpx to avoid all GET and POST requests being logged
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send a message when the command /start is issued."""
-    user = update.effective_user
-    await update.message.reply_html(
-        rf"Hi {user.mention_html()}!",
-        reply_markup=ForceReply(selective=True),
-    )
+async def select_from(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    reply = "Вітаю! Оберіть мову, з якої будете перекладати"
+    keyboard = list(divide_chunks([InlineKeyboardButton(code, callback_data=code) for code in from_codes], 3))
+    await update.message.reply_html(reply, reply_markup=InlineKeyboardMarkup(keyboard))
+    return SELECT_FROM
+
+
+async def select_from_sorry(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+
+    reply = "Оберіть мову, з якої будете перекладати"
+    keyboard = list(divide_chunks([InlineKeyboardButton(code, callback_data=code) for code in from_codes], 3))
+    await query.edit_message_text(reply, reply_markup=InlineKeyboardMarkup(keyboard))
+    return SELECT_FROM
+
+
+async def select_to(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+
+    context.user_data["from"] = query.data
+
+    keyboard = list(divide_chunks([InlineKeyboardButton(code, callback_data=code) for code in to_codes], 3))
+    await query.edit_message_text(
+            "Оберіть мову, на яку будете перекладати",
+            reply_markup=InlineKeyboardMarkup(keyboard))
+    return SELECT_TO
+
+
+async def ready(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+
+    context.user_data["to"] = query.data
+
+    from_code = context.user_data["from"]
+    to_code = context.user_data["to"]
+    await query.edit_message_text(text="Готовий перекладати з {} на {}!".format(from_code, to_code))
+    return READY
 
 
 async def translate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Respond to the user message."""
-
     if update.message is None:
         return
     if update.message.text is None:
@@ -65,6 +103,8 @@ async def translate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
 
     logger.info("Received: %s", update.message.text)
+    from_code = context.user_data["from"]
+    to_code = context.user_data["to"]
     # Translate
     translatedText = argostranslate.translate.translate(update.message.text, from_code, to_code)
     logger.info("Translated: %s", translatedText)
@@ -77,16 +117,32 @@ def main() -> None:
     logger.info("Updating Argos Translate package index...")
     argostranslate.package.update_package_index()
     available_packages = argostranslate.package.get_available_packages()
-    # package_to_install = next(
-    #     filter(
-    #         lambda x: x.from_code == from_code and x.to_code == to_code, available_packages
-    #     )
-    # )
+    installed_packages = argostranslate.package.get_installed_packages()
+
+    global from_codes, to_codes
+
     logger.info("Installing packages...")
     for package in available_packages:
         logger.info("Package: %s", package)
-        argostranslate.package.install_from_path(package.download())
+        installed = False
+        for installed_package in installed_packages:
+            if (package.from_code == installed_package.from_code and 
+                package.to_code == installed_package.to_code and
+                package.package_version == installed_package.package_version):
+                installed = True
+                break
+
+        from_codes.append(package.from_code)
+        to_codes.append(package.to_code)
+
+        if installed:
+            logger.info("Already installed!")
+        else:
+            argostranslate.package.install_from_path(package.download())
     logger.info("Installed packages")
+
+    from_codes = sorted(set(from_codes))
+    to_codes = sorted(set(to_codes))
 
     # Create the Application and pass it your bot's token.
     token = os.environ.get("BOT_TOKEN")
@@ -97,14 +153,28 @@ def main() -> None:
     logger.info("Token: %s", token)
     application = Application.builder().token(token).build()
 
-    # on different commands - answer in Telegram
-    application.add_handler(CommandHandler("start", start))
-
-    # on non command i.e message - translate the message on Telegram
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, translate))
+    # Add conversation handler with the states FROM and TO
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("start", select_from)],
+        states={
+            SELECT_FROM: [
+                CallbackQueryHandler(select_to, pattern=(lambda code: code in from_codes)),
+                CallbackQueryHandler(select_from_sorry, pattern=(lambda code: code not in from_codes)),
+            ],
+            SELECT_TO: [
+                CallbackQueryHandler(ready, pattern=(lambda code: code in to_codes)),
+                CallbackQueryHandler(select_to, pattern=(lambda code: code not in to_codes)),
+            ],
+            READY: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, translate)
+            ]
+        },
+        fallbacks=[CommandHandler("start", select_from)]
+    )
+    application.add_handler(conv_handler)
 
     # Run the bot until the user presses Ctrl-C
-    application.run_polling(allowed_updates=Update.MESSAGE)
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
 if __name__ == "__main__":
